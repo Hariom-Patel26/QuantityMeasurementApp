@@ -1,5 +1,7 @@
 package com.apps.quantitymeasurement;
 
+import com.apps.quantitymeasurement.Length.LengthUnit;
+
 public class QuantityMeasurementApp {
 	
 	// UC1 - FeetEquality
@@ -26,10 +28,20 @@ public class QuantityMeasurementApp {
         System.out.println("Output: Equal (" + inchResult + ")");
 		
 	}
+	//UC3 - Generic method
+	 public static void demonstrateLengthEquality() {
+
+	        Length l1 = new Length(1.0, LengthUnit.FEET);
+	        Length l2 = new Length(12.0, LengthUnit.INCHES);
+
+	        System.out.println("Input: Length(1.0, FEET) and Length(12.0, INCHES)");
+	        System.out.println("Output: Equal -> " + l1.equals(l2));
+	    }
 
     public static void main(String[] args) {
     	
-		demonstrateFeetEquality();
-		demonstrateInchesEquality();  
+		//demonstrateFeetEquality();
+		//demonstrateInchesEquality();  
+		demonstrateLengthEquality();
     }
 }
