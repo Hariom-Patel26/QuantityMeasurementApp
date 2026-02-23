@@ -1,24 +1,12 @@
 package com.apps.quantitymeasurement;
-
+/*
+ * New Length class free of any conversion logic
+ */
 public class Length {
 	private double value;
 	private LengthUnit unit;
 
-	public enum LengthUnit {
-//		FEET(conversionFactor: 12.0),
-		FEET(12.0), INCHES(1.0), YARDS(36.0), CENTIMETERS(0.393701);
-
-		private final double conversionFactor;
-
-		LengthUnit(double conversionFactor) {
-			this.conversionFactor = conversionFactor;
-		}
-
-		public double getConversionFactor() {
-			return conversionFactor;
-		}
-	}
-
+	
 	public Length(double value, LengthUnit unit) {
 		if (unit == null) {
 			throw new IllegalArgumentException("unit cannot be null");
@@ -38,17 +26,17 @@ public class Length {
 		return unit;
 	}
 
-	double convertToBaseUnit() {
-		return this.value * this.unit.getConversionFactor();
-//		double convertedValue = this.value * this.unit.getConversionFactor();
-//		return Math.round(convertedValue*100)/100;
-	}
+//	double convertToBaseUnit() {
+//		return this.value * this.unit.getConversionFactor();
+////		double convertedValue = this.value * this.unit.getConversionFactor();
+////		return Math.round(convertedValue*100)/100;
+//	}
 
 	public boolean compare(Length thatLength) {
 		if (thatLength == null) {
 			return false;
 		}
-		return Double.compare(this.convertToBaseUnit(), thatLength.convertToBaseUnit()) == 0;
+		return Double.compare(this.unit.convertToBaseUnit(this.value), thatLength.unit.convertToBaseUnit(thatLength.value)) == 0;
 	}
 
 	// Override equals method
@@ -71,7 +59,7 @@ public class Length {
 		if (this.unit == null || that.unit == null)
 			return false;
 
-		return Math.abs(this.convertToBaseUnit() - that.convertToBaseUnit()) < 0.00001;
+		return Math.abs(this.unit.convertToBaseUnit(this.value) - that.unit.convertToBaseUnit(that.value)) < 0.00001;
 	}
 
 	// conversion logic UC5
@@ -79,7 +67,7 @@ public class Length {
 		if (targetUnit == null) {
 			throw new IllegalArgumentException("Value cannot be null");
 		}
-		double baseValue = this.convertToBaseUnit();
+		double baseValue = this.unit.convertToBaseUnit(this.value);
 		double convertValue = baseValue / targetUnit.getConversionFactor();
 		// double convertValue= Math.round((baseValue /
 		// targetUnit.getConversionFactor())*100)/100;
@@ -115,7 +103,7 @@ public class Length {
 	 * precision and immutability.
 	 */
 	private Length addAndConvert(Length length, LengthUnit targetUnit) {
-		double sumInBaseUnit = this.convertToBaseUnit() + length.convertToBaseUnit();
+		double sumInBaseUnit = this.unit.convertToBaseUnit(this.value) + length.unit.convertToBaseUnit(length.value);
 
 		double finalValue = convertFromBaseToTargetUnit(sumInBaseUnit, targetUnit);
 		return new Length(finalValue, targetUnit);

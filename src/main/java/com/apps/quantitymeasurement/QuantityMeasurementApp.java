@@ -1,16 +1,11 @@
 package com.apps.quantitymeasurement;
 
-import com.apps.quantitymeasurement.Length.LengthUnit;
-
 public class QuantityMeasurementApp {
 	// Create a generic method to demonstrate Length equality check
 	public static boolean demonstrateLengthEquality(Length length1, Length length2) {
 		System.out.println("Equal (" + length1.compare(length2) + ")");
 		return length1.equals(length2);
 	}
-
-	// Create a static method to take in method parameters and demonstrate equality
-	// check
 	public static boolean demonstarteLengthComparison(Length length1, Length length2) {
 		System.out.println("Compare (" + length1.compare(length2) + ")");
 		return length1.compare(length2);
@@ -24,7 +19,7 @@ public class QuantityMeasurementApp {
 
 	// create a method to demonstrate the length conversion from one QuantityLength
 	// instance to another unit
-	public static Length demonstrateLengthConversion(Length length, Length.LengthUnit toUnit) {
+	public static Length demonstrateLengthConversion(Length length, LengthUnit toUnit) {
 		return length.convertTo(toUnit);
 	}
 
@@ -138,5 +133,45 @@ public class QuantityMeasurementApp {
 		System.out.println("Input: add(5.0 FEET, -2.0 FEET, INCHES) -> Output: " + demonstrateLengthAddition(
 				new Length(5.0, LengthUnit.FEET), new Length(-2.0, LengthUnit.FEET), LengthUnit.INCHES));
 
+		// --- UC8: Refactored Design Outputs ---
+		System.out.println("\n--- UC 8 implementation ---");
+
+		// Quantity(1.0, FEET).convertTo(INCHES)
+		System.out.println("Input: Quantity(1.0, FEET).convertTo(INCHES) -> Output: "
+				+ demonstrateLengthConversion(new Length(1.0, LengthUnit.FEET), LengthUnit.INCHES));
+
+		// Quantity(1.0, FEET).add(Quantity(12.0, INCHES), FEET)
+		System.out.println(
+				"Input: Quantity(1.0, FEET).add(Quantity(12.0, INCHES), FEET) -> Output: " + demonstrateLengthAddition(
+						new Length(1.0, LengthUnit.FEET), new Length(12.0, LengthUnit.INCHES), LengthUnit.FEET));
+
+		// Quantity(36.0, INCHES).equals(Quantity(1.0, YARDS))
+		Length thirtySixInches = new Length(36.0, LengthUnit.INCHES);
+		Length oneYard = new Length(1.0, LengthUnit.YARDS);
+		System.out.println("Input: Quantity(36.0, INCHES).equals(Quantity(1.0, YARDS)) -> Output: "
+				+ thirtySixInches.equals(oneYard));
+
+		// Quantity(1.0, YARDS).add(Quantity(3.0, FEET), YARDS)
+		System.out.println(
+				"Input: Quantity(1.0, YARDS).add(Quantity(3.0, FEET), YARDS) -> Output: " + demonstrateLengthAddition(
+						new Length(1.0, LengthUnit.YARDS), new Length(3.0, LengthUnit.FEET), LengthUnit.YARDS));
+
+		// Quantity(2.54, CENTIMETERS).convertTo(INCHES)
+		System.out.println("Input: Quantity(2.54, CENTIMETERS).convertTo(INCHES) -> Output: "
+				+ demonstrateLengthConversion(new Length(2.54, LengthUnit.CENTIMETERS), LengthUnit.INCHES));
+
+		// Quantity(5.0, FEET).add(Quantity(0.0, INCHES), FEET)
+		System.out.println(
+				"Input: Quantity(5.0, FEET).add(Quantity(0.0, INCHES), FEET) -> Output: " + demonstrateLengthAddition(
+						new Length(5.0, LengthUnit.FEET), new Length(0.0, LengthUnit.INCHES), LengthUnit.FEET));
+
+		// LengthUnit.FEET.convertToBaseUnit(12.0)
+		System.out.println(
+				"Input: LengthUnit.FEET.convertToBaseUnit(12.0) -> Output: " + LengthUnit.FEET.convertToBaseUnit(12.0));
+
+		// LengthUnit.INCHES.convertToBaseUnit(12.0)
+		System.out.println("Input: LengthUnit.INCHES.convertToBaseUnit(12.0) -> Output: "
+				+ LengthUnit.INCHES.convertToBaseUnit(12.0));
+		
 	}
 }
