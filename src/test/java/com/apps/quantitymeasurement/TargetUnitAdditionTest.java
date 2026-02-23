@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import com.apps.quantitymeasurement.Length.LengthUnit;
-
 public class TargetUnitAdditionTest {
 
     private static final double EPSILON = 1e-3;

@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import com.apps.quantitymeasurement.Length.LengthUnit;
-
 public class UnitAdditionTest {
 
     private static final double EPSILON = 1e-6;
@@ -75,11 +73,7 @@ public class UnitAdditionTest {
         Length l1 = new Length(1.0, LengthUnit.FEET);
         Length l2 = new Length(12.0, LengthUnit.INCHES);
 
-        assertEquals(
-                l1.add(l2).convertToBaseUnit(),
-                l2.add(l1).convertToBaseUnit(),
-                EPSILON
-        );
+        assertEquals(l1.add(l2), l2.add(l1));
     }
 
     @Test
