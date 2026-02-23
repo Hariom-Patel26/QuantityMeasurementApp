@@ -33,6 +33,10 @@ public class QuantityMeasurementApp {
 		return l1.add(l2);
 	}
 
+	public static Length demonstrateLengthAddition(Length l1, Length l2, LengthUnit targetUnit) {
+		return l1.add(l2, targetUnit);
+	}
+
 	/**
 	 * Static API for unit conversion. Normalizes value to base unit (Inches) and
 	 * converts to target.
@@ -79,23 +83,23 @@ public class QuantityMeasurementApp {
 		System.out.println("Input: add(1.0 FEET, 2.0 FEET) -> Output: "
 				+ demonstrateLengthAddition(new Length(1.0, LengthUnit.FEET), new Length(2.0, LengthUnit.FEET)));
 
-		//  Cross-unit addition (Feet + Inches) -> Expected: 2.0 FEET
+		// Cross-unit addition (Feet + Inches) -> Expected: 2.0 FEET
 		System.out.println("Input: add(1.0 FEET, 12.0 INCHES) -> Output: "
 				+ demonstrateLengthAddition(new Length(1.0, LengthUnit.FEET), new Length(12.0, LengthUnit.INCHES)));
 
-		//  Cross-unit addition (Inches + Feet) -> Expected: 24.0 INCHES
+		// Cross-unit addition (Inches + Feet) -> Expected: 24.0 INCHES
 		System.out.println("Input: add(12.0 INCHES, 1.0 FEET) -> Output: "
 				+ demonstrateLengthAddition(new Length(12.0, LengthUnit.INCHES), new Length(1.0, LengthUnit.FEET)));
 
-		//  Cross-unit addition (Yards + Feet) -> Expected: 2.0 YARDS
+		// Cross-unit addition (Yards + Feet) -> Expected: 2.0 YARDS
 		System.out.println("Input: add(1.0 YARDS, 3.0 FEET) -> Output: "
 				+ demonstrateLengthAddition(new Length(1.0, LengthUnit.YARDS), new Length(3.0, LengthUnit.FEET)));
 
-		//  Cross-unit addition (Inches + Yards) -> Expected: 72.0 INCHES
+		// Cross-unit addition (Inches + Yards) -> Expected: 72.0 INCHES
 		System.out.println("Input: add(36.0 INCHES, 1.0 YARDS) -> Output: "
 				+ demonstrateLengthAddition(new Length(36.0, LengthUnit.INCHES), new Length(1.0, LengthUnit.YARDS)));
 
-		//  Centimeter + Inch addition -> Expected: ~5.08 CENTIMETERS
+		// Centimeter + Inch addition -> Expected: ~5.08 CENTIMETERS
 		System.out.println("Input: add(2.54 CENTIMETERS, 1.0 INCHES) -> Output: " + demonstrateLengthAddition(
 				new Length(2.54, LengthUnit.CENTIMETERS), new Length(1.0, LengthUnit.INCHES)));
 
@@ -103,9 +107,36 @@ public class QuantityMeasurementApp {
 		System.out.println("Input: add(5.0 FEET, 0.0 INCHES) -> Output: "
 				+ demonstrateLengthAddition(new Length(5.0, LengthUnit.FEET), new Length(0.0, LengthUnit.INCHES)));
 
-		//  Negative Value Addition
+		// Negative Value Addition
 		System.out.println("Input: add(5.0 FEET, -2.0 FEET) -> Output: "
 				+ demonstrateLengthAddition(new Length(5.0, LengthUnit.FEET), new Length(-2.0, LengthUnit.FEET)));
+
+		// UC 7
+		System.out.println("UC 7 implementation");
+		System.out.println("Input: add(1.0 FEET, 12.0 INCHES, FEET) -> Output: " + demonstrateLengthAddition(
+				new Length(1.0, LengthUnit.FEET), new Length(12.0, LengthUnit.INCHES), LengthUnit.FEET));
+
+		System.out.println("Input: add(1.0 FEET, 12.0 INCHES, INCHES) -> Output: " + demonstrateLengthAddition(
+				new Length(1.0, LengthUnit.FEET), new Length(12.0, LengthUnit.INCHES), LengthUnit.INCHES));
+
+		System.out.println("Input: add(1.0 FEET, 12.0 INCHES, YARDS) -> Output: " + demonstrateLengthAddition(
+				new Length(1.0, LengthUnit.FEET), new Length(12.0, LengthUnit.INCHES), LengthUnit.YARDS));
+
+		System.out.println("Input: add(1.0 YARDS, 3.0 FEET, YARDS) -> Output: " + demonstrateLengthAddition(
+				new Length(1.0, LengthUnit.YARDS), new Length(3.0, LengthUnit.FEET), LengthUnit.YARDS));
+
+		System.out.println("Input: add(36.0 INCHES, 1.0 YARDS, FEET) -> Output: " + demonstrateLengthAddition(
+				new Length(36.0, LengthUnit.INCHES), new Length(1.0, LengthUnit.YARDS), LengthUnit.FEET));
+
+		System.out.println("Input: add(2.54 CENTIMETERS, 1.0 INCHES, CENTIMETERS) -> Output: "
+				+ demonstrateLengthAddition(new Length(2.54, LengthUnit.CENTIMETERS),
+						new Length(1.0, LengthUnit.INCHES), LengthUnit.CENTIMETERS));
+
+		System.out.println("Input: add(5.0 FEET, 0.0 INCHES, YARDS) -> Output: " + demonstrateLengthAddition(
+				new Length(5.0, LengthUnit.FEET), new Length(0.0, LengthUnit.INCHES), LengthUnit.YARDS));
+
+		System.out.println("Input: add(5.0 FEET, -2.0 FEET, INCHES) -> Output: " + demonstrateLengthAddition(
+				new Length(5.0, LengthUnit.FEET), new Length(-2.0, LengthUnit.FEET), LengthUnit.INCHES));
 
 	}
 }
