@@ -6,6 +6,8 @@ public class QuantityMeasurementApp {
 		System.out.println("Equal (" + length1.compare(length2) + ")");
 		return length1.equals(length2);
 	}
+
+	// Create a static method to take in method parameters and demonstrate equality check
 	public static boolean demonstarteLengthComparison(Length length1, Length length2) {
 		System.out.println("Compare (" + length1.compare(length2) + ")");
 		return length1.compare(length2);
@@ -32,12 +34,6 @@ public class QuantityMeasurementApp {
 		return l1.add(l2, targetUnit);
 	}
 
-	/**
-	 * Static API for unit conversion. Normalizes value to base unit (Inches) and
-	 * converts to target.
-	 * 
-	 * @throws IllegalArgumentException if units are null or value is non-finite.
-	 */
 	public static double convert(double value, LengthUnit source, LengthUnit target) {
 		if (source == null || target == null) {
 			throw new IllegalArgumentException("Units cannot be null");
@@ -48,6 +44,24 @@ public class QuantityMeasurementApp {
 		// Perform conversion through the instance method to maintain DRY principle
 		Length result = sourceLength.convertTo(target);
 		return result.getValue();
+	}
+
+	// --- Weight Demonstration Methods ---
+
+	public static boolean demonstrateWeightEquality(Weight w1, Weight w2) {
+		return w1.equals(w2);
+	}
+
+	public static Weight demonstrateWeightConversion(Weight weight, WeightUnit toUnit) {
+		return weight.convertTo(toUnit);
+	}
+
+	public static Weight demonstrateWeightAddition(Weight w1, Weight w2) {
+		return w1.add(w2);
+	}
+
+	public static Weight demonstrateWeightAddition(Weight w1, Weight w2, WeightUnit target) {
+		return w1.add(w2, target);
 	}
 
 	// Main method
@@ -173,5 +187,47 @@ public class QuantityMeasurementApp {
 		System.out.println("Input: LengthUnit.INCHES.convertToBaseUnit(12.0) -> Output: "
 				+ LengthUnit.INCHES.convertToBaseUnit(12.0));
 		
+		
+		System.out.println("--- UC 9:  Weight Measurement Implementation ---");
+
+        //  Equality Comparisons 
+        System.out.println("Input: Quantity(1.0, KILOGRAM).equals(Quantity(1.0, KILOGRAM)) -> Output: " + 
+            new Weight(1.0, WeightUnit.KILOGRAM).equals(new Weight(1.0, WeightUnit.KILOGRAM)));
+        
+        System.out.println("Input: Quantity(1.0, KILOGRAM).equals(Quantity(1000.0, GRAM)) -> Output: " + 
+            new Weight(1.0, WeightUnit.KILOGRAM).equals(new Weight(1000.0, WeightUnit.GRAM)));
+        
+        System.out.println("Input: Quantity(2.0, POUND).equals(Quantity(2.0, POUND)) -> Output: " + 
+            new Weight(2.0, WeightUnit.POUND).equals(new Weight(2.0, WeightUnit.POUND)));
+        
+        System.out.println("Input: Quantity(1.0, KILOGRAM).equals(Quantity(2.20462, POUND)) -> Output: " + 
+            new Weight(1.0, WeightUnit.KILOGRAM).equals(new Weight(2.20462, WeightUnit.POUND)));
+
+        //   Unit Conversions 
+        System.out.println("Input: Quantity(1.0, KILOGRAM).convertTo(GRAM) -> Output: " + 
+            new Weight(1.0, WeightUnit.KILOGRAM).convertTo(WeightUnit.GRAM));
+        
+        System.out.println("Input: Quantity(2.0, POUND).convertTo(KILOGRAM) -> Output: " + 
+            new Weight(2.0, WeightUnit.POUND).convertTo(WeightUnit.KILOGRAM));
+
+        //   Addition Operations (Implicit) 
+        System.out.println("Input: Quantity(1.0, KILOGRAM).add(Quantity(2.0, KILOGRAM)) -> Output: " + 
+            new Weight(1.0, WeightUnit.KILOGRAM).add(new Weight(2.0, WeightUnit.KILOGRAM)));
+        
+        System.out.println("Input: Quantity(1.0, KILOGRAM).add(Quantity(1000.0, GRAM)) -> Output: " + 
+            new Weight(1.0, WeightUnit.KILOGRAM).add(new Weight(1000.0, WeightUnit.GRAM)));
+
+        //  Addition Operations (Explicit) 
+        System.out.println("Input: Quantity(1.0, KILOGRAM).add(Quantity(1000.0, GRAM), GRAM) -> Output: " + 
+            new Weight(1.0, WeightUnit.KILOGRAM).add(new Weight(1000.0, WeightUnit.GRAM), WeightUnit.GRAM));
+        
+        System.out.println("Input: Quantity(1.0, POUND).add(Quantity(453.592, GRAM), POUND) -> Output: " + 
+            new Weight(1.0, WeightUnit.POUND).add(new Weight(453.592, WeightUnit.GRAM), WeightUnit.POUND));
+
+        // Category Incompatibility 
+        Weight weight = new Weight(1.0, WeightUnit.KILOGRAM);
+        Length length = new Length(1.0, LengthUnit.FEET);
+        System.out.println("Input: Quantity(1.0, KILOGRAM).equals(Quantity(1.0, FOOT)) -> Output: " + 
+            weight.equals(length));
 	}
 }
