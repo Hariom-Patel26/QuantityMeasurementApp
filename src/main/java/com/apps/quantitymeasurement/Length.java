@@ -1,57 +1,81 @@
 package com.apps.quantitymeasurement;
 
-import java.util.Objects;
-
 public class Length {
+	private double value;
+	private LengthUnit unit;
 
-    private final double value;
-    private final LengthUnit unit;
+	public enum LengthUnit {
+		
+		FEET(12.0), INCHES(1.0),
+		YARDS(36.0),CENTIMETERS(0.393701);
 
-    // Enum inside class Length
-    public enum LengthUnit {
-        FEET(12.0),
-        INCHES(1.0);
+		private final double conversionFactor;
 
-        private final double conversionFactor;
+		LengthUnit(double conversionFactor) {
+			this.conversionFactor = conversionFactor;
+		}
 
-        LengthUnit(double conversionFactor) {
-            this.conversionFactor = conversionFactor;
-        }
+		public double getConversionFactor() {
+			return conversionFactor;
+		}
+	}
 
-        public double getConversionFactor() {
-            return conversionFactor;
-        }
-    }
+	public Length(double value, LengthUnit unit) {
+		if (unit == null) {
+			throw new IllegalArgumentException("unit cannot be null");
+		}
+		this.value = value;
+		this.unit = unit;
+	}
 
-    public Length(double value, LengthUnit unit) {
-        if (unit == null) {
-            throw new IllegalArgumentException("Unit cannot be null");
-        }
-        this.value = value;
-        this.unit = unit;
-    }
+	private double convertToBaseUnit() {
+//		return this.value * this.unit.getConversionFactor();
+		double convertedValue = this.value * this.unit.getConversionFactor();
+		return Math.round(convertedValue*100)/100;
+	}
 
-    // Convert everything to base unit (INCHES)
-    private double convertToBaseUnit() {
-        return this.value * this.unit.getConversionFactor();
-    }
+	public boolean compare(Length thatLength) {
+		if (thatLength == null) {
+			return false;
+		}
+		return Double.compare(this.convertToBaseUnit(), thatLength.convertToBaseUnit()) == 0;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
+	// Override equals method
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null) {
+			return false;
+		}
 
-        if (this == obj)
-            return true;
+		if (getClass() != o.getClass()) {
+			return false;
+		}
 
-        if (obj == null || getClass() != obj.getClass())
-            return false;
+		Length that = (Length) o;
 
-        Length other = (Length) obj;
+		if (this.unit == null || that.unit == null)
+			return false;
 
-        return Double.compare(this.convertToBaseUnit(),other.convertToBaseUnit()) == 0;
-    }
+		return Double.compare(this.convertToBaseUnit(), that.convertToBaseUnit()) == 0;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(convertToBaseUnit());
-    }
+	// main method for standalone testing
+	public static void main(String[] args) {
+		Length l1 = new Length(1.0, LengthUnit.FEET);
+		Length l2 = new Length(12.0, LengthUnit.INCHES);
+		System.out.println("Are lengths equal ? " + l1.equals(l2));
+		
+		Length length3 = new Length(1, LengthUnit.YARDS);
+		Length length4 = new Length(36, LengthUnit.INCHES);
+		System.out.println("Are lengths equals? " + length3.equals(length4)); // Should print true;
+		
+		Length length5 = new Length(100, LengthUnit.CENTIMETERS);
+		Length length6 = new Length(39.3701, LengthUnit.INCHES);
+		System.out.println("Are lengths equals? " + length5.equals(length6)); // Should print true;
+	}
+
 }
