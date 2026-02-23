@@ -5,7 +5,7 @@ public class Length {
 	private LengthUnit unit;
 
 	public enum LengthUnit {
-		
+//		FEET(conversionFactor: 12.0),
 		FEET(12.0), INCHES(1.0),
 		YARDS(36.0),CENTIMETERS(0.393701);
 
@@ -24,14 +24,20 @@ public class Length {
 		if (unit == null) {
 			throw new IllegalArgumentException("unit cannot be null");
 		}
+		if(!Double.isFinite(value)) {
+			throw new IllegalArgumentException("Value must be finite");
+		}
 		this.value = value;
 		this.unit = unit;
 	}
+	public double getValue() {
+		return value;
+	}
 
 	private double convertToBaseUnit() {
-//		return this.value * this.unit.getConversionFactor();
-		double convertedValue = this.value * this.unit.getConversionFactor();
-		return Math.round(convertedValue*100)/100;
+		return this.value * this.unit.getConversionFactor();
+//		double convertedValue = this.value * this.unit.getConversionFactor();
+//		return Math.round(convertedValue*100)/100;
 	}
 
 	public boolean compare(Length thatLength) {
@@ -57,11 +63,27 @@ public class Length {
 
 		Length that = (Length) o;
 
+		// Defensive check in case a null unit somehow bypassed the constructor
 		if (this.unit == null || that.unit == null)
 			return false;
 
-		return Double.compare(this.convertToBaseUnit(), that.convertToBaseUnit()) == 0;
+		return Math.abs(this.convertToBaseUnit()- that.convertToBaseUnit()) < 0.00001;
 	}
+	
+	public Length convertTo(LengthUnit targetUnit) {
+		if(targetUnit ==null) {
+			 throw new IllegalArgumentException("Value cannot be null");
+		}
+		double baseValue=this.convertToBaseUnit();
+		double convertValue=baseValue / targetUnit.getConversionFactor();
+		//double convertValue= Math.round((baseValue / targetUnit.getConversionFactor())*100)/100;
+		return new Length(convertValue, targetUnit);
+	}
+	@Override
+	public String toString() {
+		return String.format("%.2f %s", value, unit);
+	}
+	
 
 	// main method for standalone testing
 	public static void main(String[] args) {
