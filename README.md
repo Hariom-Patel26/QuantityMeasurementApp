@@ -27,6 +27,9 @@
   - Adds Yards and Centimeters to the `LengthUnit` enum with appropriate conversion factors.
   - Demonstrates scalability of the generic design by enabling seamless cross-unit equality without introducing new classes.
 
+- 🧩 **UC5 – Unit-to-Unit Conversion :**
+  - Introduces explicit conversion operations between supported length units using centralized enum conversion factors.
+  - Extends the `Length` API to convert measurements across units while preserving mathematical equivalence and precision.
 
 ### 🧰 Tech Stack
 
@@ -62,7 +65,7 @@
   │   │                   └── 📄 Feet.java
   │   │                   └── 📄 Inches.java
   │   │                   └── 📄 Length.java
-  │   │                   └──📄 QuantityMeasurementApp.java
+  │   │                   └── 📄 QuantityMeasurementApp.java
   │   │
   │   └── 📁 test
   │       └── 📁 java
@@ -73,6 +76,7 @@
   │                       └── 📄 FeetTest.java
   │                       └── 📄 InchesTest.java
   │                       └── 📄 LengthTest.java
+  │                       └── 📄 UnitConversionTest.java
   │
   ├── ⚙️ pom.xml
   ├── 🚫 .gitignore
