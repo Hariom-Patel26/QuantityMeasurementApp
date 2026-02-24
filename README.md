@@ -39,6 +39,18 @@
   - Extends length addition to allow explicit specification of the result unit independent of operand units.
   - Enhances API flexibility by enabling arithmetic results to be expressed in any supported unit while preserving immutability and precision.
 
+- 🧩 **UC8 – Standalone Unit Refactor :**
+ - Extracts LengthUnit into a standalone enum responsible for all unit conversion logic.
+ - Improves architectural separation by delegating conversions to units, reducing coupling and enabling scalable support for future measurement categories.
+
+- 🧩 **UC9 – Weight Measurement Support :**
+- Introduces a weight measurement category with Weight and WeightUnit supporting kilograms, grams, and pounds.
+- Enables equality, conversion, and addition operations for weight while preserving strict separation from length measurements and stabilizing the shared measurement architecture.
+
+- 🧩 **UC10 – Generic Quantity Architecture :**
+  - Introduces a generic `Quantity<U extends IMeasurable>` model enabling multiple measurement categories through a shared abstraction.
+  - Eliminates category-specific duplication by unifying equality, conversion, and addition logic into a single scalable architecture.
+
 ### 🧰 Tech Stack
 
 - **Java 17+** — core language and application development  
@@ -70,9 +82,14 @@
   │   │       └── 📁 com
   │   │           └── 📁 apps
   │   │               └── 📁 quantitymeasurement
-  │   │                   └── 📄 Feet.java
+  │   │                   └── 📄 Feet.java 
+  │   │                   └── 📄 IMeasurable.java   
   │   │                   └── 📄 Inches.java
   │   │                   └── 📄 Length.java
+  │   │                   └── 📄 LengthUnit.java
+  │   │                   └── 📄 Quantity.java
+  │   │                   └── 📄 Weight.java
+  │   │                   └── 📄 WeightUnit.java
   │   │                   └── 📄 QuantityMeasurementApp.java
   │   │
   │   └── 📁 test
@@ -83,10 +100,14 @@
   │                       └── 📄 ExtendedUnitTest.java
   │                       └── 📄 FeetTest.java
   │                       └── 📄 InchesTest.java
-  │                       └── 📄 LengthTest.java
+  │                       └── 📄 LengthTest.java   
+  │                       └── 📄 LengthQuantityTest.java
+  │                       └── 📄 GenericQuantityTest.java
+  │                       └── 📄 RefactoredEnumTest.java
   │                       └── 📄 UnitConversionTest.java
   │                       └── 📄 UnitAdditionTest.java
   │                       └── 📄 TargetUnitAdditionTest.java
+  │                       └── 📄 WeightMeasurementTest.java
   │
   ├── ⚙️ pom.xml
   ├── 🚫 .gitignore
