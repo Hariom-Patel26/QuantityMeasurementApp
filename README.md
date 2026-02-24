@@ -39,6 +39,14 @@
   - Extends length addition to allow explicit specification of the result unit independent of operand units.
   - Enhances API flexibility by enabling arithmetic results to be expressed in any supported unit while preserving immutability and precision.
 
+- 🧩 **UC8 – Standalone Unit Refactor :**
+  - Extracts `LengthUnit` into a standalone enum responsible for all unit conversion logic.
+  - Improves architectural separation by delegating conversions to units, reducing coupling and enabling scalable support for future measurement categories.
+
+- 🧩 **UC9 – Weight Measurement Support :**
+  - Introduces a weight measurement category with `Weight` and `WeightUnit` supporting kilograms, grams, and pounds.
+  - Enables equality, conversion, and addition operations for weight while preserving strict separation from length measurements and stabilizing the shared measurement architecture.
+
 ### 🧰 Tech Stack
 
 - **Java 17+** — core language and application development  
@@ -73,6 +81,9 @@
   │   │                   └── 📄 Feet.java
   │   │                   └── 📄 Inches.java
   │   │                   └── 📄 Length.java
+  │   │                   └── 📄 LengthUnit.java
+  │   │                   └── 📄 Weight.java
+  │   │                   └── 📄 WeightUnit.java
   │   │                   └── 📄 QuantityMeasurementApp.java
   │   │
   │   └── 📁 test
@@ -84,9 +95,11 @@
   │                       └── 📄 FeetTest.java
   │                       └── 📄 InchesTest.java
   │                       └── 📄 LengthTest.java
+  │                       └── 📄 RefactoredEnumTest.java
   │                       └── 📄 UnitConversionTest.java
   │                       └── 📄 UnitAdditionTest.java
   │                       └── 📄 TargetUnitAdditionTest.java
+  │                       └── 📄 WeightMeasurementTest.java
   │
   ├── ⚙️ pom.xml
   ├── 🚫 .gitignore
