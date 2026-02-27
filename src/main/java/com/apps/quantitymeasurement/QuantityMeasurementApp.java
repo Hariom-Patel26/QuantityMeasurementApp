@@ -1,10 +1,7 @@
 package com.apps.quantitymeasurement;
 
 public class QuantityMeasurementApp {
-	/**
-	 * GENERIC: Handles equality check for any Quantity type (Length, Weight, etc.)
-	 * Replaces demonstrateLengthEquality and demonstrateWeightEquality.
-	 */
+
 	public static <U extends IMeasurable> boolean demonstrateEquality(Quantity<U> q1, Quantity<U> q2) {
 		boolean result = q1.equals(q2);
 		System.out.println("Input: " + q1 + ".equals(" + q2 + ") -> Output: " + result);
@@ -102,5 +99,24 @@ public class QuantityMeasurementApp {
 		//   Category Incompatibility
 		Quantity<LengthUnit> oneFoot = new Quantity<>(1.0, LengthUnit.FEET);
 		System.out.println("Input: 1.0 LITRE equals 1.0 FOOT -> " + oneLitre.equals(oneFoot));
+		
+		
+		System.out.println(" UC 12: Subtraction & Division");
+        Quantity<LengthUnit> tenFeet = new Quantity<>(10.0, LengthUnit.FEET);
+        Quantity<LengthUnit> sixInches = new Quantity<>(6.0, LengthUnit.INCHES);
+
+        // 1. Subtraction
+        System.out.println("Input: 10.0 FEET - 6.0 INCHES -> " + tenFeet.subtract(sixInches));
+        System.out.println("Input: 10.0 FEET - 6.0 INCHES (Target INCHES) -> " + 
+                           tenFeet.subtract(sixInches, LengthUnit.INCHES));
+
+        // 2. Division 
+        Quantity<WeightUnit> tenKg = new Quantity<>(10.0, WeightUnit.KILOGRAM);
+        Quantity<WeightUnit> fiveKg = new Quantity<>(5.0, WeightUnit.KILOGRAM);
+        System.out.println("Input: 10.0 KG / 5.0 KG -> " + tenKg.divide(fiveKg));
+
+        Quantity<VolumeUnit> onelitre = new Quantity<>(1.0, VolumeUnit.LITRE);
+        Quantity<VolumeUnit> thousand_ML = new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
+        System.out.println("Input: 1000.0 ML / 1.0 LITRE -> " + thousand_ML.divide(onelitre));
 	}
 }
