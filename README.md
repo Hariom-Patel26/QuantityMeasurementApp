@@ -54,6 +54,10 @@
 - 🧩 **UC11 – Volume Measurement Support :**
   - Adds a new measurement category using `VolumeUnit` (Litre, Millilitre, Gallon) implemented through the generic `Quantity<U>` architecture.
   - Validates that new measurement types integrate without modifying existing quantity logic, proving true multi-category scalability.
+ 
+- 🧩 **UC12 – Subtraction and Division Operations :**
+  - Introduces subtraction between quantities with automatic cross-unit normalization while preserving immutability.
+  - Adds division support producing a dimensionless ratio, enabling comparative analysis across measurements of the same category.
 
 ### 🧰 Tech Stack
 
@@ -111,6 +115,7 @@
   │                       └── 📄 RefactoredEnumTest.java
   │                       └── 📄 UnitConversionTest.java
   │                       └── 📄 UnitAdditionTest.java
+  │                       └── 📄 SubtractionDivisionTest.java
   │                       └── 📄 TargetUnitAdditionTest.java
   │                       └── 📄 VolumeQuantityTest.java                                               
   │                       └── 📄 WeightMeasurementTest.java
