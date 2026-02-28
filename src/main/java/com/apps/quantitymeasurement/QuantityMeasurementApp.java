@@ -70,25 +70,24 @@ public class QuantityMeasurementApp {
 
 		System.out.println("Input: 1.0 kg equals 1.0 feet -> Output: " + oneKg.equals(oneFeet));
 
-		//   UC 11: Volume Measurement Implementation  
+		// UC 11: Volume Measurement Implementation
 		System.out.println("UC 11: Volume Operations");
 
-		
 		Quantity<VolumeUnit> oneLitre = new Quantity<>(1.0, VolumeUnit.LITRE);
 		Quantity<VolumeUnit> thousandML = new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
 		Quantity<VolumeUnit> oneGallon = new Quantity<>(1.0, VolumeUnit.GALLON);
 
-		//  Equality Comparisons
+		// Equality Comparisons
 		System.out.println("Input: 1.0 LITRE equals 1000.0 MILLILITRE -> " + oneLitre.equals(thousandML));
 		System.out.println("Input: 3.78541 LITRE equals 1.0 GALLON -> "
 				+ new Quantity<>(3.78541, VolumeUnit.LITRE).equals(oneGallon));
 
-		//  Unit Conversions
+		// Unit Conversions
 		System.out.println("Input: 1.0 LITRE convertTo MILLILITRE -> " + oneLitre.convertTo(VolumeUnit.MILLILITRE));
 		System.out.println("Input: 2.0 GALLON convertTo LITRE -> "
 				+ new Quantity<>(2.0, VolumeUnit.GALLON).convertTo(VolumeUnit.LITRE));
 
-		//   Addition Operations
+		// Addition Operations
 		// 1L + 1000mL = 2L (Implicit unit)
 		System.out.println("Input: 1.0 LITRE add 1000.0 MILLILITRE -> " + oneLitre.add(thousandML, VolumeUnit.LITRE));
 
@@ -96,27 +95,46 @@ public class QuantityMeasurementApp {
 		System.out.println("Input: 1.0 GALLON add 3.78541 LITRE (Target GALLON) -> "
 				+ oneGallon.add(new Quantity<>(3.78541, VolumeUnit.LITRE), VolumeUnit.GALLON));
 
-		//   Category Incompatibility
+		// Category Incompatibility
 		Quantity<LengthUnit> oneFoot = new Quantity<>(1.0, LengthUnit.FEET);
 		System.out.println("Input: 1.0 LITRE equals 1.0 FOOT -> " + oneLitre.equals(oneFoot));
-		
-		
+
 		System.out.println(" UC 12: Subtraction & Division");
-        Quantity<LengthUnit> tenFeet = new Quantity<>(10.0, LengthUnit.FEET);
-        Quantity<LengthUnit> sixInches = new Quantity<>(6.0, LengthUnit.INCHES);
+		Quantity<LengthUnit> tenFeet = new Quantity<>(10.0, LengthUnit.FEET);
+		Quantity<LengthUnit> sixInches = new Quantity<>(6.0, LengthUnit.INCHES);
 
-        // 1. Subtraction
-        System.out.println("Input: 10.0 FEET - 6.0 INCHES -> " + tenFeet.subtract(sixInches));
-        System.out.println("Input: 10.0 FEET - 6.0 INCHES (Target INCHES) -> " + 
-                           tenFeet.subtract(sixInches, LengthUnit.INCHES));
+		// 1. Subtraction
+		System.out.println("Input: 10.0 FEET - 6.0 INCHES -> " + tenFeet.subtract(sixInches));
+		System.out.println(
+				"Input: 10.0 FEET - 6.0 INCHES (Target INCHES) -> " + tenFeet.subtract(sixInches, LengthUnit.INCHES));
 
-        // 2. Division 
-        Quantity<WeightUnit> tenKg = new Quantity<>(10.0, WeightUnit.KILOGRAM);
-        Quantity<WeightUnit> fiveKg = new Quantity<>(5.0, WeightUnit.KILOGRAM);
-        System.out.println("Input: 10.0 KG / 5.0 KG -> " + tenKg.divide(fiveKg));
+		// 2. Division (Dimensionless)
+		Quantity<WeightUnit> tenKg = new Quantity<>(10.0, WeightUnit.KILOGRAM);
+		Quantity<WeightUnit> fiveKg = new Quantity<>(5.0, WeightUnit.KILOGRAM);
+		System.out.println("Input: 10.0 KG / 5.0 KG -> " + tenKg.divide(fiveKg));
 
-        Quantity<VolumeUnit> onelitre = new Quantity<>(1.0, VolumeUnit.LITRE);
-        Quantity<VolumeUnit> thousand_ML = new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
-        System.out.println("Input: 1000.0 ML / 1.0 LITRE -> " + thousand_ML.divide(onelitre));
+		Quantity<VolumeUnit> onelitre = new Quantity<>(1.0, VolumeUnit.LITRE);
+		Quantity<VolumeUnit> thousand_ML = new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
+		System.out.println("Input: 1000.0 ML / 1.0 LITRE -> " + thousand_ML.divide(onelitre));
+		System.out.println();
+
+		System.out.println(" Temperature Demonstration!!!");
+
+		// Equality Demonstration
+		Quantity<TemperatureUnit> temp1 = new Quantity<>(0.0, TemperatureUnit.CELSIUS);
+		Quantity<TemperatureUnit> temp2 = new Quantity<>(32.0, TemperatureUnit.FAHRENHEIT);
+		System.out.println("0°C equals 32°F: " + temp1.equals(temp2));
+
+		// Conversion Demonstration
+		Quantity<TemperatureUnit> celsius = new Quantity<>(100.0, TemperatureUnit.CELSIUS);
+		Quantity<TemperatureUnit> fahrenheit = celsius.convertTo(TemperatureUnit.FAHRENHEIT);
+		System.out.println("100°C = " + fahrenheit.getValue() + "°F");
+
+		// Unsupported Operation Demonstration
+		try {
+			celsius.add(new Quantity<>(50.0, TemperatureUnit.CELSIUS));
+		} catch (UnsupportedOperationException e) {
+			System.out.println("Cannot add absolute temperatures: " + e.getMessage());
+		}
 	}
 }

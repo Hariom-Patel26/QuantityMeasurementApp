@@ -1,12 +1,11 @@
 package com.apps.quantitymeasurement;
-/*
- * New Length class free of any conversion logic
- */
+
+// New Length class free of any conversion logic
+
 public class Length {
 	private double value;
 	private LengthUnit unit;
 
-	
 	public Length(double value, LengthUnit unit) {
 		if (unit == null) {
 			throw new IllegalArgumentException("unit cannot be null");
@@ -26,17 +25,19 @@ public class Length {
 		return unit;
 	}
 
-//	double convertToBaseUnit() {
-//		return this.value * this.unit.getConversionFactor();
-////		double convertedValue = this.value * this.unit.getConversionFactor();
-////		return Math.round(convertedValue*100)/100;
-//	}
+/*	double convertToBaseUnit() {
+		return this.value * this.unit.getConversionFactor();
+		double convertedValue = this.value * this.unit.getConversionFactor();
+		return Math.round(convertedValue*100)/100;
+	}
+*/
 
 	public boolean compare(Length thatLength) {
 		if (thatLength == null) {
 			return false;
 		}
-		return Double.compare(this.unit.convertToBaseUnit(this.value), thatLength.unit.convertToBaseUnit(thatLength.value)) == 0;
+		return Double.compare(this.unit.convertToBaseUnit(this.value),
+				thatLength.unit.convertToBaseUnit(thatLength.value)) == 0;
 	}
 
 	// Override equals method
@@ -55,7 +56,7 @@ public class Length {
 
 		Length that = (Length) o;
 
-		// Defensive check in case a null unit somehow bypassed the constructor
+
 		if (this.unit == null || that.unit == null)
 			return false;
 
@@ -69,8 +70,7 @@ public class Length {
 		}
 		double baseValue = this.unit.convertToBaseUnit(this.value);
 		double convertValue = baseValue / targetUnit.getConversionFactor();
-		// double convertValue= Math.round((baseValue /
-		// targetUnit.getConversionFactor())*100)/100;
+
 		return new Length(convertValue, targetUnit);
 	}
 
@@ -85,7 +85,7 @@ public class Length {
 	}
 
 	// UC7: Adds two measurements and returns the result in a specified target unit.
-	// * Uses a private helper to maintain the DRY principle.
+
 	public Length add(Length that, LengthUnit targetUnit) {
 		// Ensuring non-nullity and finite values
 		if (that == null || targetUnit == null) {
@@ -97,11 +97,9 @@ public class Length {
 		}
 		return addAndConvert(that, targetUnit);
 	}
-
-	/**
-	 * UC 7 Private utility method to centralize addition logic. Ensures consistent
-	 * precision and immutability.
-	 */
+	
+	 // UC 7 Private utility method to centralize addition logic. Ensures consistent precision and immutability.
+	 
 	private Length addAndConvert(Length length, LengthUnit targetUnit) {
 		double sumInBaseUnit = this.unit.convertToBaseUnit(this.value) + length.unit.convertToBaseUnit(length.value);
 

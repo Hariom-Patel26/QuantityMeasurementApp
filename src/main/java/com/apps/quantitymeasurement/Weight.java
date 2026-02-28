@@ -4,7 +4,6 @@ public class Weight {
 	private double value;
 	private WeightUnit unit;
 
-	
 	public Weight(double value, WeightUnit unit) {
 		if (unit == null) {
 			throw new IllegalArgumentException("unit cannot be null");
@@ -23,7 +22,7 @@ public class Weight {
 	public WeightUnit getUnit() {
 		return unit;
 	}
- 
+
 	public boolean compare(Weight that) {
 		if (that == null) {
 			return false;
@@ -61,6 +60,8 @@ public class Weight {
 		}
 		double baseValue = this.unit.convertToBaseUnit(this.value);
 		double convertValue = baseValue / targetUnit.getConversionFactor();
+		// double convertValue= Math.round((baseValue /
+		// targetUnit.getConversionFactor())*100)/100;
 		return new Weight(convertValue, targetUnit);
 	}
 
@@ -71,13 +72,13 @@ public class Weight {
 
 	// UC6: Implicit Target
 	public Weight add(Weight that) {
-		return add(that, this.unit);
+		return add(that, this.unit); // Reuses the overloaded method
 	}
 
 	// UC7: Adds two measurements and returns the result in a specified target unit.
-	
+	//  Uses a private helper to maintain the DRY principle.
 	public Weight add(Weight that, WeightUnit targetUnit) {
-
+		// Ensuring non-nullity and finite values
 		if (that == null || targetUnit == null) {
 			throw new IllegalArgumentException("Operand and target unit cannot be null");
 		}
@@ -88,7 +89,7 @@ public class Weight {
 		return addAndConvert(that, targetUnit);
 	}
 
-	 // UC 7 Private utility method to centralize addition logic. Ensures consistent
+// UC 7 Private utility method to centralize addition logic. Ensures consistent precision and immutability.
 
 	private Weight addAndConvert(Weight weight, WeightUnit targetUnit) {
 		double sumInBaseUnit = this.unit.convertToBaseUnit(this.value) + weight.unit.convertToBaseUnit(weight.value);
@@ -100,10 +101,11 @@ public class Weight {
 	private double convertFromBaseToTargetUnit(double weightInKGs, WeightUnit target) {
 		return weightInKGs / target.getConversionFactor();
 	}
-	
+
 	public static void main(String[] args) {
 		Weight w1 = new Weight(1.0, WeightUnit.KILOGRAM);
 		Weight w2 = new Weight(1000.0, WeightUnit.GRAM);
-		System.out.println("Are w1 and w2 equal : "+w1.equals(w2));
+
+		System.out.println("Are w1 and w2 equal : " + w1.equals(w2));
 	}
 }
