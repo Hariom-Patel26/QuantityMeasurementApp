@@ -35,17 +35,17 @@
   - Introduces addition between length measurements with automatic unit normalization and conversion.
   - Returns a new immutable `Length` result expressed in the unit of the first operand while preserving mathematical accuracy.
 
- - 🧩 **UC7 – Addition with Target Unit Specification :**
+- 🧩 **UC7 – Addition with Target Unit Specification :**
   - Extends length addition to allow explicit specification of the result unit independent of operand units.
   - Enhances API flexibility by enabling arithmetic results to be expressed in any supported unit while preserving immutability and precision.
 
 - 🧩 **UC8 – Standalone Unit Refactor :**
- - Extracts LengthUnit into a standalone enum responsible for all unit conversion logic.
- - Improves architectural separation by delegating conversions to units, reducing coupling and enabling scalable support for future measurement categories.
+  - Extracts LengthUnit into a standalone enum responsible for all unit conversion logic.
+  - Improves architectural separation by delegating conversions to units, reducing coupling and enabling scalable support for future measurement categories.
 
 - 🧩 **UC9 – Weight Measurement Support :**
-- Introduces a weight measurement category with Weight and WeightUnit supporting kilograms, grams, and pounds.
-- Enables equality, conversion, and addition operations for weight while preserving strict separation from length measurements and stabilizing the shared measurement architecture.
+  - Introduces a weight measurement category with Weight and WeightUnit supporting kilograms, grams, and pounds.
+  - Enables equality, conversion, and addition operations for weight while preserving strict separation from length measurements and stabilizing the shared measurement architecture.
 
 - 🧩 **UC10 – Generic Quantity Architecture :**
   - Introduces a generic `Quantity<U extends IMeasurable>` model enabling multiple measurement categories through a shared abstraction.
@@ -62,6 +62,13 @@
 - 🧩 **UC13 – Centralized Arithmetic Logic (DRY Refactor) :**
   - Refactors addition, subtraction, and division to use a centralized arithmetic helper, eliminating duplicated validation and conversion logic.
   - Improves maintainability and scalability while preserving all existing behaviour and public APIs.
+
+- 🧩 **UC14 – Temperature Measurement (Selective Arithmetic Support) :**
+  - Introduces temperature measurements using `TemperatureUnit` integrated into the generic `Quantity<U>` architecture.
+  - Supports equality comparison and unit conversion across Celsius, Fahrenheit, and Kelvin using non-linear conversion formulas.
+  - Refactors `IMeasurable` with default capability validation to allow category-specific operation support.
+  - Prevents unsupported arithmetic operations (addition, subtraction, division) through explicit validation and meaningful exceptions.
+  - Demonstrates Interface Segregation and capability-based design while preserving backward compatibility for length, weight, and volume.
 
 ### 🧰 Tech Stack
 
@@ -102,6 +109,7 @@
   │   │                   └── 📄 Quantity.java
   │   │                   └── 📄 Weight.java
   │   │                   └── 📄 WeightUnit.java
+  │   │                   └── 📄 TemperatureUnit.java
   │   │                   └── 📄 VolumeUnit.java
   │   │                   └── 📄 QuantityMeasurementApp.java
   │   │
