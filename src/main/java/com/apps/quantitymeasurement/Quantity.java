@@ -1,6 +1,7 @@
 package com.apps.quantitymeasurement;
 
 import java.util.Objects;
+import java.util.function.DoubleBinaryOperator;
 
 public class Quantity<U extends IMeasurable> {
 	private double value;
@@ -35,6 +36,9 @@ public class Quantity<U extends IMeasurable> {
 		// Use a wildcard to handle different generic types at runtime
 		Quantity<?> that = (Quantity<?>) o;
 
+		// --- STRATEGIC FIX FOR UC10 ---
+		// This prevents 1.0 Feet from equaling 1.0 Kilogram.
+		// It checks if the Unit Enums are of the same type (LengthUnit vs WeightUnit).
 		if (this.unit.getClass() != that.unit.getClass()) {
 			return false;
 		}
@@ -59,57 +63,66 @@ public class Quantity<U extends IMeasurable> {
 	public String toString() {
 		return String.format("%.2f %s", value, unit);
 	}
+//	UC13: Private enum to encapsulate arithmetic logic using Lambdas. Adheres to
+//	the Open/Closed Principle for future operations
+	private enum ArithmeticOperation {
+		ADD((a, b) -> a + b), SUBTRACT((a, b) -> a - b), DIVIDE((a, b) -> {
+			if (Math.abs(b) < 1e-9)
+				throw new ArithmeticException("Division by zero");
+			return a / b;
+		});
+
+		private final  DoubleBinaryOperator operation;
+
+		ArithmeticOperation( DoubleBinaryOperator operation) {
+			this.operation = operation;
+		} 
+		
+		public double compute(double v1, double v2) {
+			return operation.applyAsDouble(v1, v2);
+		}
+	}
+	/**
+	 * UC13: Centralized validation to enforce consistent error handling.
+	 */
+	private void validateArithmeticOperands(Quantity<U> other, U targetUnit, boolean targetUnitRequired) {
+	    if (other == null) throw new IllegalArgumentException("Operand cannot be null");
+	    if (this.unit.getClass() != other.unit.getClass()) {
+	        throw new IllegalArgumentException("Cross-category arithmetic is not allowed");
+	    }
+	    if (targetUnitRequired && targetUnit == null) {
+	        throw new IllegalArgumentException("Target unit cannot be null");
+	    }
+	}
+
+	/**
+	 * UC13: Centralized arithmetic helper to eliminate code duplication.
+	 */
+	private double performBaseArithmetic(Quantity<U> other, ArithmeticOperation operation) {
+	    double v1 = this.unit.convertToBaseUnit(this.value);
+	    double v2 = other.unit.convertToBaseUnit(other.value);
+	    return operation.compute(v1, v2);
+	}
+
 
 	// Implicit Target
 	public Quantity<U> add(Quantity<U> that) {
 		return add(that, this.unit); // Reuses the overloaded method
 	}
 
-	public Quantity<U> add(Quantity<U> that, U targetUnit) {
-		// Ensuring non-nullity and finite values
-		if (that == null || targetUnit == null) {
-			throw new IllegalArgumentException("Operand and target unit cannot be null");
-		}
-		// Explicit finite check for the current object and the operand
-		if (!Double.isFinite(this.value) || !Double.isFinite(that.value)) {
-			throw new IllegalArgumentException("Measurement values must be finite");
-		}
-		return addAndConvert(that, targetUnit);
+	// Adds two measurements and returns the result in a specified target unit.
+	public Quantity<U> add(Quantity<U> other, U targetUnit) {
+	    validateArithmeticOperands(other, targetUnit, true);
+	    double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
+	    double finalValue = targetUnit.convertFromBaseUnit(baseResult);
+	    return new Quantity<>(round(finalValue), targetUnit);
 	}
 
-	private Quantity<U> addAndConvert(Quantity<U> quantity, U targetUnit) {
-		double sumInBaseUnit = this.unit.convertToBaseUnit(this.value)
-				+ quantity.unit.convertToBaseUnit(quantity.value);
-
-		double finalValue = convertFromBaseToTargetUnit(sumInBaseUnit, targetUnit);
-		return new Quantity<U>(finalValue, targetUnit);
-	}
-
-	private double convertFromBaseToTargetUnit(double basevalue, U target) {
-		return basevalue / target.getConversionFactor();
-	}
-
-	public Quantity<U> subtract(Quantity<U> that, U targetUnit) {
-		// Fix for NullOperand test
-		if (that == null) {
-			throw new IllegalArgumentException("Operand cannot be null");
-		}
-
-		// Fix for CrossCategory test
-		// Runtime check: Are we comparing LengthUnit with WeightUnit?
-		if (this.unit.getClass() != that.unit.getClass()) {
-			throw new IllegalArgumentException("Cross-category arithmetic is not allowed");
-		}
-
-		if (targetUnit == null) {
-			throw new IllegalArgumentException("Target unit cannot be null");
-		}
-
-		// Logic for subtraction
-		double baseDifference = this.unit.convertToBaseUnit(this.value) - that.unit.convertToBaseUnit(that.value);
-
-		double finalValue = targetUnit.convertFromBaseUnit(baseDifference);
-		return new Quantity<>(Math.round(finalValue * 100.0) / 100.0, targetUnit);
+	public Quantity<U> subtract(Quantity<U> other, U targetUnit) {
+	    validateArithmeticOperands(other, targetUnit, true);
+	    double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
+	    double finalValue = targetUnit.convertFromBaseUnit(baseResult);
+	    return new Quantity<>(round(finalValue), targetUnit);
 	}
 
 	// Overloaded Subtraction: Defaults to the unit of the first operand.
@@ -117,27 +130,16 @@ public class Quantity<U extends IMeasurable> {
 		return this.subtract(that, this.unit);
 	}
 
-	// cDivision: Returns the dimensionless ratio between two quantities.
-	public double divide(Quantity<U> that) {
-		validateArithmeticOperand(that);
-		double divisorBaseValue = that.unit.convertToBaseUnit(that.value);
-
-		if (Math.abs(divisorBaseValue) < 1e-9) {
-			throw new ArithmeticException("Division by zero quantity is not allowed");
-		}
-
-		return this.unit.convertToBaseUnit(this.value) / divisorBaseValue;
+	// Division: Returns the dimensionless ratio between two quantities.
+	public double divide(Quantity<U> other) {
+	    validateArithmeticOperands(other, null, false);
+	    return performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
 	}
 
-	// Validation Logic common to all
-	private void validateArithmeticOperand(Quantity<U> that) {
-		if (that == null)
-			throw new IllegalArgumentException("Operand cannot be null");
-		// Runtime category safety check
-		if (this.unit.getClass() != that.unit.getClass()) {
-			throw new IllegalArgumentException("Cross-category arithmetic is not allowed");
-		}
-	}
+	// Simple rounding helper to maintain precision
+	private double round(double val) {
+	    return Math.round(val * 100.0) / 100.0;
+	} 
 
 	public static void main(String[] args) {
 		Quantity<LengthUnit> l1 = new Quantity<>(1.0, LengthUnit.FEET);
