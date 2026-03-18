@@ -1,17 +1,36 @@
-package com.apps.quantitymeasurement.dto;
+package com.apps.quantitymeasurement.entity;
 
 /**
- * QuantityDTO – Data Transfer Object (POJO) used for transferring
- * quantity measurement data between layers of the application.
+ * QuantityDTO
  *
- * This DTO encapsulates the essential information required for
- * performing quantity measurement operations such as comparison,
- * conversion, addition, subtraction, and division.
+ * Data Transfer Object (POJO) used for transferring quantity measurement data
+ * between layers of the application.
+ *
+ * This DTO encapsulates the essential information required for performing quantity
+ * measurement operations such as comparison, conversion, addition, subtraction, and
+ * division. It stores the quantity value, unit of measurement, and measurement type.
+ *
+ * The DTO is primarily used to transfer data between the Application Layer, Controller
+ * Layer, and Service Layer without exposing internal domain models.
+ *
+ * Supported measurement categories:
+ * - Length (FEET, INCHES, YARDS, CENTIMETERS)
+ * - Volume (LITRE, MILLILITRE, GALLON)
+ * - Weight (KILOGRAM, GRAM, POUND)
+ * - Temperature (CELSIUS, FAHRENHEIT, KELVIN)
+ *
+ * Each category defines its own unit enumeration which implements the IMeasurableUnit
+ * interface. The enum constants are made public so they have visibility outside the package.
+ *
  */
 public class QuantityDTO {
 
-    // Interface representing measurable units used inside the DTO.
-
+    /**
+     * Interface representing measurable units used inside the DTO.
+     *
+     * All unit enumerations inside this DTO implement this interface to provide
+     * a common contract for retrieving unit metadata (unit name and measurement type).
+     */
     public interface IMeasurableUnit {
         public String getUnitName();
         public String getMeasurementType();
@@ -19,15 +38,16 @@ public class QuantityDTO {
 
     /**
      * Enumeration representing supported length units.
+     * Made public for visibility outside the entity package.
      */
     public enum LengthUnit implements IMeasurableUnit {
-        FEET, 
-        INCHES, 
-        YARDS, 
+        FEET,
+        INCHES,
+        YARDS,
         CENTIMETERS;
 
         /**
-         * Returns the name of the unit.
+         * Returns the enum constant name as the unit identifier.
          *
          * @return unit name
          */
@@ -37,7 +57,7 @@ public class QuantityDTO {
         }
 
         /**
-         * Returns the measurement type for the unit.
+         * Returns "LengthUnit" as the measurement type.
          *
          * @return measurement type name
          */
@@ -49,14 +69,15 @@ public class QuantityDTO {
 
     /**
      * Enumeration representing supported volume units.
+     * Made public for visibility outside the entity package.
      */
     public enum VolumeUnit implements IMeasurableUnit {
-        LITRE, 
-        MILLILITRE, 
+        LITRE,
+        MILLILITRE,
         GALLON;
 
         /**
-         * Returns the name of the unit.
+         * Returns the enum constant name as the unit identifier.
          *
          * @return unit name
          */
@@ -66,7 +87,7 @@ public class QuantityDTO {
         }
 
         /**
-         * Returns the measurement type for the unit.
+         * Returns "VolumeUnit" as the measurement type.
          *
          * @return measurement type name
          */
@@ -78,14 +99,15 @@ public class QuantityDTO {
 
     /**
      * Enumeration representing supported weight units.
+     * Made public for visibility outside the entity package.
      */
     public enum WeightUnit implements IMeasurableUnit {
-    	KILOGRAM, 
-    	GRAM, 
-    	POUND;
+        KILOGRAM,
+        GRAM,
+        POUND;
 
         /**
-         * Returns the name of the unit.
+         * Returns the enum constant name as the unit identifier.
          *
          * @return unit name
          */
@@ -95,7 +117,7 @@ public class QuantityDTO {
         }
 
         /**
-         * Returns the measurement type for the unit.
+         * Returns "WeightUnit" as the measurement type.
          *
          * @return measurement type name
          */
@@ -107,12 +129,13 @@ public class QuantityDTO {
 
     /**
      * Enumeration representing supported temperature units.
+     * Made public for visibility outside the entity package.
      */
     public enum TemperatureUnit implements IMeasurableUnit {
         CELSIUS, FAHRENHEIT, KELVIN;
 
         /**
-         * Returns the name of the unit.
+         * Returns the enum constant name as the unit identifier.
          *
          * @return unit name
          */
@@ -122,7 +145,7 @@ public class QuantityDTO {
         }
 
         /**
-         * Returns the measurement type for the unit.
+         * Returns "TemperatureUnit" as the measurement type.
          *
          * @return measurement type name
          */
@@ -148,11 +171,10 @@ public class QuantityDTO {
     public String measurementType;
 
     /**
-     * Constructor for creating a QuantityDTO using
-     * a unit enumeration.
+     * Constructor for creating a QuantityDTO using a unit enumeration.
      *
      * @param value numerical quantity value
-     * @param unit measurable unit enumeration
+     * @param unit  measurable unit enumeration
      */
     public QuantityDTO(double value, IMeasurableUnit unit) {
         this.value = value;
@@ -161,11 +183,10 @@ public class QuantityDTO {
     }
 
     /**
-     * Constructor for creating a QuantityDTO using
-     * raw string values.
+     * Constructor for creating a QuantityDTO using raw string values.
      *
-     * @param value numerical quantity value
-     * @param unit unit name
+     * @param value           numerical quantity value
+     * @param unit            unit name
      * @param measurementType measurement category
      */
     public QuantityDTO(double value, String unit, String measurementType) {
@@ -202,66 +223,12 @@ public class QuantityDTO {
     }
 
     /**
-     * Returns a formatted string representation
-     * of the quantity.
+     * Returns a formatted string representation of the quantity.
      *
      * @return formatted quantity string
      */
     @Override
     public String toString() {
         return String.format("%s %s", Double.toString(value).replace("\\.0+$", ""), unit);
-    }
-
-    /**
-     * Main method for quick testing of QuantityDTO.
-     *
-     * @param args command line arguments
-     */
-    public static void main(String[] args) {
-
-        System.out.println("---- Testing QuantityDTO ----");
-
-        QuantityDTO length1 =
-                new QuantityDTO(2, LengthUnit.FEET);
-
-        QuantityDTO length2 =
-                new QuantityDTO(24, LengthUnit.INCHES);
-
-        System.out.println("Length DTO 1 : " + length1);
-        System.out.println("Length DTO 2 : " + length2);
-
-        QuantityDTO volume1 =
-                new QuantityDTO(3, VolumeUnit.LITRE);
-
-        QuantityDTO volume2 =
-                new QuantityDTO(500, VolumeUnit.MILLILITRE);
-
-        System.out.println("Volume DTO 1 : " + volume1);
-        System.out.println("Volume DTO 2 : " + volume2);
-
-        QuantityDTO weight1 =
-                new QuantityDTO(5, WeightUnit.KILOGRAM);
-
-        QuantityDTO weight2 =
-                new QuantityDTO(500, WeightUnit.GRAM);
-
-        System.out.println("Weight DTO 1 : " + weight1);
-        System.out.println("Weight DTO 2 : " + weight2);
-
-        QuantityDTO temp1 =
-                new QuantityDTO(25, TemperatureUnit.CELSIUS);
-
-        QuantityDTO temp2 =
-                new QuantityDTO(77, TemperatureUnit.FAHRENHEIT);
-
-        System.out.println("Temperature DTO 1 : " + temp1);
-        System.out.println("Temperature DTO 2 : " + temp2);
-
-        QuantityDTO custom =
-                new QuantityDTO(10, "FEET", "LengthUnit");
-
-        System.out.println("String Constructor DTO : " + custom);
-
-        System.out.println("---- DTO Testing Complete ----");
     }
 }

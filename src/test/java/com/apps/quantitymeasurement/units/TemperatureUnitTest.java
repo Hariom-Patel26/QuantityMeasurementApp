@@ -1,9 +1,14 @@
 package com.apps.quantitymeasurement.units;
 
-import com.apps.quantitymeasurement.model.Quantity;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.apps.quantitymeasurement.entity.Quantity;
 
 /**
  * TemperatureUnitTest
@@ -170,7 +175,7 @@ public class TemperatureUnitTest {
     @Test
     public void testImplementsIMeasurable() {
         assertTrue(
-            com.apps.quantitymeasurement.interfaces.IMeasurable.class
+            com.apps.quantitymeasurement.units.IMeasurable.class
                 .isAssignableFrom(TemperatureUnit.class)
         );
     }

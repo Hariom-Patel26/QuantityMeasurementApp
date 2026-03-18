@@ -1,4 +1,4 @@
-package com.apps.quantitymeasurement.dto;
+package com.apps.quantitymeasurement.entity;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,9 +1,10 @@
 package com.apps.quantitymeasurement.model;
 
+import com.apps.quantitymeasurement.entity.Quantity;
 import com.apps.quantitymeasurement.units.LengthUnit;
-import com.apps.quantitymeasurement.units.WeightUnit;
-import com.apps.quantitymeasurement.units.VolumeUnit;
 import com.apps.quantitymeasurement.units.TemperatureUnit;
+import com.apps.quantitymeasurement.units.VolumeUnit;
+import com.apps.quantitymeasurement.units.WeightUnit;
 
 import org.junit.jupiter.api.Test;
 

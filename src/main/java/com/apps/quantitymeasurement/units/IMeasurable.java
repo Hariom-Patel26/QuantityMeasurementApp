@@ -1,4 +1,4 @@
-package com.apps.quantitymeasurement.interfaces;
+package com.apps.quantitymeasurement.units;
 
 /**
  * IMeasurable
@@ -9,6 +9,19 @@ package com.apps.quantitymeasurement.interfaces;
  * This interface defines the core contract that all
  * measurement unit types must implement, such as
  * LengthUnit, VolumeUnit, WeightUnit, and TemperatureUnit.
+ *
+ * Implementations of this interface provide the ability to:
+ * <ul>
+ * <li>Retrieve the unit name</li>
+ * <li>Convert values to the base unit of a measurement type</li>
+ * <li>Convert values from the base unit to a specific unit</li>
+ * <li>Identify the measurement category</li>
+ * <li>Retrieve unit instances dynamically using unit names</li>
+ * </ul>
+ *
+ * This abstraction allows the service layer to perform
+ * operations generically across different measurement
+ * categories without depending on specific unit enums.
  */
 public interface IMeasurable {
 

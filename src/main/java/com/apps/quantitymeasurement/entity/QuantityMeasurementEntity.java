@@ -1,18 +1,48 @@
 package com.apps.quantitymeasurement.entity;
 
-import com.apps.quantitymeasurement.interfaces.IMeasurable;
-import com.apps.quantitymeasurement.model.QuantityModel;
+import com.apps.quantitymeasurement.units.IMeasurable;
 
-//Entity class representing a quantity measurement operation.
-
+/**
+ * QuantityMeasurementEntity
+ *
+ * Entity class representing a quantity measurement operation record.
+ *
+ * This entity is used to persist and retrieve measurement operation history from the
+ * database. It stores operands (thisQuantity and thatQuantity), the operation type,
+ * and the result (as a model, string, or error message).
+ *
+ * Stores:
+ * - First and second operand values, units, and measurement types
+ * - Operation type (COMPARE, CONVERT, ADD, SUBTRACT, DIVIDE)
+ * - Result value, unit, and measurement type (for arithmetic operations)
+ * - Result string (for comparison/conversion results like "Equal")
+ * - Error information (for failed operations)
+ *
+ * This class is Serializable so it can also be used by the
+ * QuantityMeasurementCacheRepository for file-based persistence.
+ *
+ * @author Developer
+ * @version 16.0
+ * @since 1.0
+ */
 public class QuantityMeasurementEntity implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * No-arg constructor for use by the database repository when reconstructing
+     * entities from ResultSet rows. Fields are set directly after construction.
+     */
+    public QuantityMeasurementEntity() {
+        /* Fields set by QuantityMeasurementDatabaseRepository.mapResultSetToEntity() */
+    }
+
+    /* --- First operand fields --- */
     public Double thisValue;
     public String thisUnit;
     public String thisMeasurementType;
 
+    /* --- Second operand fields --- */
     public Double thatValue;
     public String thatUnit;
     public String thatMeasurementType;
@@ -20,31 +50,32 @@ public class QuantityMeasurementEntity implements java.io.Serializable {
     /**
      * Operation type representing the quantity measurement action.
      *
-     * Supported operations:
-     * - COMPARE
-     * - CONVERT
-     * - ADD
-     * - SUBTRACT
-     * - DIVIDE
+     * Supported operations: COMPARE, CONVERT, ADD, SUBTRACT, DIVIDE
      */
     public String operation;
-    
+
+    /* --- Result fields --- */
     public Double resultValue;
     public String resultUnit;
     public String resultMeasurementType;
 
+    /**
+     * String result used for operations like COMPARE ("Equal" / "Not Equal")
+     * or DIVIDE (numeric ratio as string).
+     */
     public String resultString;
 
+    /* --- Error fields --- */
     public boolean isError;
     public String errorMessage;
 
     /**
-     * Constructor for comparison or conversion operations.
+     * Constructor for comparison or conversion operations where the result is a string.
      *
      * @param thisQuantity first operand
      * @param thatQuantity second operand
-     * @param operation operation type
-     * @param result result string such as "Equal" or "Not Equal"
+     * @param operation    operation type (e.g., "COMPARE")
+     * @param result       string result such as "Equal" or "Not Equal"
      */
     public QuantityMeasurementEntity(
             QuantityModel<IMeasurable> thisQuantity,
@@ -57,12 +88,12 @@ public class QuantityMeasurementEntity implements java.io.Serializable {
     }
 
     /**
-     * Constructor for arithmetic operations.
+     * Constructor for arithmetic operations where the result is a QuantityModel.
      *
      * @param thisQuantity first operand
      * @param thatQuantity second operand
-     * @param operation operation type
-     * @param result arithmetic result
+     * @param operation    operation type (e.g., "ADD")
+     * @param result       result quantity model with value and unit
      */
     public QuantityMeasurementEntity(
             QuantityModel<IMeasurable> thisQuantity,
@@ -71,13 +102,20 @@ public class QuantityMeasurementEntity implements java.io.Serializable {
             QuantityModel<IMeasurable> result
     ) {
         this(thisQuantity, thatQuantity, operation);
-
         this.resultValue = result.getValue();
         this.resultUnit = result.getUnit().getUnitName();
         this.resultMeasurementType = result.getUnit().getMeasurementType();
     }
 
-
+    /**
+     * Constructor for error cases where an operation fails.
+     *
+     * @param thisQuantity first operand
+     * @param thatQuantity second operand
+     * @param operation    operation type
+     * @param errorMessage error description
+     * @param isError      flag indicating this is an error record
+     */
     public QuantityMeasurementEntity(
             QuantityModel<IMeasurable> thisQuantity,
             QuantityModel<IMeasurable> thatQuantity,
@@ -86,21 +124,31 @@ public class QuantityMeasurementEntity implements java.io.Serializable {
             boolean isError
     ) {
         this(thisQuantity, thatQuantity, operation);
-
         this.errorMessage = errorMessage;
         this.isError = isError;
     }
 
+    /**
+     * Base constructor used internally by all other constructors.
+     *
+     * Initializes operand information and operation type.
+     * Validates that neither operand is null.
+     *
+     * @param thisQuantity first operand
+     * @param thatQuantity second operand
+     * @param operation    operation type
+     * @throws IllegalArgumentException if either operand is null
+     */
     public QuantityMeasurementEntity(
             QuantityModel<IMeasurable> thisQuantity,
             QuantityModel<IMeasurable> thatQuantity,
             String operation
     ) {
-    	if (thisQuantity == null || thatQuantity == null) {
-    	    throw new IllegalArgumentException("Quantities cannot be null");
-    	}
+        if (thisQuantity == null || thatQuantity == null) {
+            throw new IllegalArgumentException("Quantities cannot be null");
+        }
 
-    	this.thisValue = thisQuantity.getValue();
+        this.thisValue = thisQuantity.getValue();
         this.thisUnit = thisQuantity.getUnit().getUnitName();
         this.thisMeasurementType = thisQuantity.getUnit().getMeasurementType();
 
@@ -112,27 +160,21 @@ public class QuantityMeasurementEntity implements java.io.Serializable {
     }
 
     /**
-     * Override equals() to compare entity objects.
+     * Compares this entity with another for equality.
      *
-     * Two entities are considered equal if:
-     * - operand values match within precision tolerance
-     * - units match
-     * - operation type matches
+     * Two entities are considered equal if their operand values match within
+     * precision tolerance (1e-6), and units and operation type match.
      *
      * @param obj object to compare
      * @return true if entities are equivalent
      */
     @Override
     public boolean equals(Object obj) {
-
         if (this == obj)
             return true;
-
         if (obj == null || getClass() != obj.getClass())
             return false;
-
         QuantityMeasurementEntity other = (QuantityMeasurementEntity) obj;
-
         return Math.abs(this.thisValue - other.thisValue) < 1e-6
                 && Math.abs(this.thatValue - other.thatValue) < 1e-6
                 && this.thisUnit.equals(other.thisUnit)
@@ -141,19 +183,18 @@ public class QuantityMeasurementEntity implements java.io.Serializable {
     }
 
     /**
-     * Returns string representation of the entity.
+     * Returns a human-readable string representation of this entity.
      *
-     * This representation is primarily used for logging
-     * and debugging purposes.
+     * Includes operation, operand details, and result or error information.
+     * Used for logging, debugging, and displaying stored measurements.
      *
      * @return formatted entity description
      */
     @Override
     public String toString() {
-
         StringBuilder sb = new StringBuilder();
 
-        sb.append(isError == true? "[ERROR] " : "[SUCCESS] ")
+        sb.append(isError ? "[ERROR] " : "[SUCCESS] ")
           .append("operation=").append(operation);
 
         sb.append(", operand1=")
@@ -168,11 +209,9 @@ public class QuantityMeasurementEntity implements java.io.Serializable {
 
         if (isError) {
             sb.append(", message=").append(errorMessage);
-        }
-        else if (resultString != null && !resultString.isEmpty()) {
+        } else if (resultString != null && !resultString.isEmpty()) {
             sb.append(", result=").append(resultString);
-        }
-        else {
+        } else {
             sb.append(", result=")
               .append(resultValue).append(" ")
               .append(resultUnit).append(" ")
@@ -180,49 +219,5 @@ public class QuantityMeasurementEntity implements java.io.Serializable {
         }
 
         return sb.toString();
-    }
-
-    /**
-     * Main method for testing entity functionality.
-     *
-     * Demonstrates:
-     * - comparison entity
-     * - arithmetic entity
-     * - error entity
-     *
-     * @param args command line arguments
-     */
-    public static void main(String[] args) {
-
-        System.out.println("---- Testing QuantityMeasurementEntity ----");
-
-        IMeasurable feet = com.apps.quantitymeasurement.units.LengthUnit.FEET;
-        IMeasurable inches = com.apps.quantitymeasurement.units.LengthUnit.INCHES;
-
-        QuantityModel<IMeasurable> q1 =
-                new QuantityModel<>(2, feet);
-
-        QuantityModel<IMeasurable> q2 =
-                new QuantityModel<>(24, inches);
-
-        QuantityMeasurementEntity comparisonEntity =
-                new QuantityMeasurementEntity(q1,q2,"COMPARE","Equal");
-
-        System.out.println(comparisonEntity);
-
-        QuantityModel<IMeasurable> result =
-                new QuantityModel<>(4, feet);
-
-        QuantityMeasurementEntity arithmeticEntity =
-                new QuantityMeasurementEntity(q1,q2,"ADD",result);
-
-        System.out.println(arithmeticEntity);
-
-        QuantityMeasurementEntity errorEntity =
-                new QuantityMeasurementEntity(q1,q2,"DIVIDE","Division by zero not allowed",true);
-
-        System.out.println(errorEntity);
-
-        System.out.println("---- Entity Testing Complete ----");
     }
 }

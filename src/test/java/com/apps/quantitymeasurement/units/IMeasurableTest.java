@@ -1,12 +1,11 @@
-package com.apps.quantitymeasurement.interfaces;
+package com.apps.quantitymeasurement.units;
 
-import com.apps.quantitymeasurement.units.LengthUnit;
-import com.apps.quantitymeasurement.units.VolumeUnit;
-import com.apps.quantitymeasurement.units.WeightUnit;
-import com.apps.quantitymeasurement.units.TemperatureUnit;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * IMeasurableTest
