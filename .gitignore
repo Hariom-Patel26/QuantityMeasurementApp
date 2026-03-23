@@ -1,0 +1,52 @@
+# --- Build Output ---
+target/
+
+# --- STS / Eclipse Metadata ---
+.settings/
+.classpath
+.factorypath
+.project
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
+
+# --- H2 Database Files ---
+data/*.mv.db
+data/*.trace.db
+
+# --- Serialized Cache Repository ---
+data/*.ser
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# --- VS Code ---
+.vscode/
+
+# --- Maven ---
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# --- Java ---
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# --- Environment / Secrets ---
+application-prod.properties
+*.env
+
+# --- Maven Wrapper & Docs ---
+.mvn/
+mvnw
+mvnw.cmd
+HELP.md
+
+# --- Git Attributes ---
+.gitattributes
