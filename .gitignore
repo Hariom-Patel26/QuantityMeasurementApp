@@ -20,6 +20,15 @@ target/
 .DS_Store
 Thumbs.db
 
+# Maven Wrapper (agar remove karna hai)
+.mvn/
+mvnw
+mvnw.cmd
+
+# Optional docs/config
+.gitattributes
+HELP.md
+
 # Java compiled output (should never reach VCS)
 *.class
 *.jar
