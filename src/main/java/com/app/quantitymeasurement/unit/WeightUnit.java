@@ -14,13 +14,25 @@ public enum WeightUnit implements IMeasurable, SupportsArithmetic {
         this.conversionFactor = conversionFactor;
     }
 
-
+    /**
+     * Converts {@code value} from this unit to KILOGRAM.
+     * Result is rounded to 6 decimal places.
+     *
+     * @param value value in this unit
+     * @return equivalent value in KILOGRAM
+     */
     @Override
     public double convertToBaseUnit(double value) {
         return Math.round(value * conversionFactor * 1_000_000.0) / 1_000_000.0;
     }
 
- 
+    /**
+     * Converts {@code baseValue} from KILOGRAM to this unit.
+     * Result is rounded to 6 decimal places.
+     *
+     * @param baseValue value in KILOGRAM
+     * @return equivalent value in this unit
+     */
     @Override
     public double convertFromBaseUnit(double baseValue) {
         return Math.round(baseValue / conversionFactor * 1_000_000.0) / 1_000_000.0;

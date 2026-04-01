@@ -29,32 +29,55 @@ public enum TemperatureUnit implements IMeasurable {
         this.fromBase = fromBase;
     }
 
-
+    /**
+     * Converts {@code value} from this unit to CELSIUS.
+     *
+     * @param value temperature in this unit
+     * @return equivalent temperature in CELSIUS
+     */
     @Override
     public double convertToBaseUnit(double value) {
         return toBase.apply(value);
     }
 
-
+    /**
+     * Converts {@code baseValue} from CELSIUS to this unit.
+     *
+     * @param baseValue temperature in CELSIUS
+     * @return equivalent temperature in this unit
+     */
     @Override
     public double convertFromBaseUnit(double baseValue) {
         return fromBase.apply(baseValue);
     }
 
-
+    /**
+     * Converts {@code value} from this unit to {@code target} in one step.
+     *
+     * @param value  temperature in this unit
+     * @param target desired target unit
+     * @return converted temperature value
+     */
     public double convertTo(double value, TemperatureUnit target) {
         return target.convertFromBaseUnit(convertToBaseUnit(value));
     }
 
-  
+    /** @return the enum constant name as the unit identifier */
     @Override
     public String getUnitName() { return this.name(); }
 
-   
+    /** @return {@code "TemperatureUnit"} */
     @Override
     public String getMeasurementType() { return this.getClass().getSimpleName(); }
 
- 
+    /**
+     * Returns the {@code TemperatureUnit} constant whose name matches {@code unitName}
+     * (case-insensitive).
+     *
+     * @param unitName name of the unit to look up
+     * @return matching constant
+     * @throws IllegalArgumentException if no match is found
+     */
     @Override
     public IMeasurable getUnitInstance(String unitName) {
         for (TemperatureUnit unit : TemperatureUnit.values()) {

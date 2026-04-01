@@ -16,7 +16,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class QuantityArithmeticTest {
+class QuantityArithmeticTest {
 
     private static final double EPSILON = 1e-6;
 
@@ -25,7 +25,7 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testAdd_SameUnit_FeetPlusFeet() {
+    void testAdd_SameUnit_FeetPlusFeet() {
         assertEquals(
             new Quantity<>(3.0, LengthUnit.FEET),
             new Quantity<>(1.0, LengthUnit.FEET).add(new Quantity<>(2.0, LengthUnit.FEET))
@@ -33,7 +33,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_SameUnit_InchPlusInch() {
+    void testAdd_SameUnit_InchPlusInch() {
         assertEquals(
             new Quantity<>(12.0, LengthUnit.INCHES),
             new Quantity<>(6.0, LengthUnit.INCHES).add(new Quantity<>(6.0, LengthUnit.INCHES))
@@ -41,7 +41,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_CrossUnit_FeetPlusInches_ResultInFeet() {
+    void testAdd_CrossUnit_FeetPlusInches_ResultInFeet() {
         assertEquals(
             new Quantity<>(2.0, LengthUnit.FEET),
             new Quantity<>(1.0, LengthUnit.FEET).add(new Quantity<>(12.0, LengthUnit.INCHES))
@@ -49,7 +49,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_CrossUnit_InchPlusFeet_ResultInInches() {
+    void testAdd_CrossUnit_InchPlusFeet_ResultInInches() {
         assertEquals(
             new Quantity<>(24.0, LengthUnit.INCHES),
             new Quantity<>(12.0, LengthUnit.INCHES).add(new Quantity<>(1.0, LengthUnit.FEET))
@@ -57,7 +57,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_CrossUnit_YardPlusFeet() {
+    void testAdd_CrossUnit_YardPlusFeet() {
         assertEquals(
             new Quantity<>(2.0, LengthUnit.YARDS),
             new Quantity<>(1.0, LengthUnit.YARDS).add(new Quantity<>(3.0, LengthUnit.FEET))
@@ -65,7 +65,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_CrossUnit_CentimeterPlusInch() {
+    void testAdd_CrossUnit_CentimeterPlusInch() {
         assertEquals(
             new Quantity<>(5.08, LengthUnit.CENTIMETERS),
             new Quantity<>(2.54, LengthUnit.CENTIMETERS).add(new Quantity<>(1.0, LengthUnit.INCHES))
@@ -73,7 +73,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_WithZero() {
+    void testAdd_WithZero() {
         assertEquals(
             new Quantity<>(5.0, LengthUnit.FEET),
             new Quantity<>(5.0, LengthUnit.FEET).add(new Quantity<>(0.0, LengthUnit.INCHES))
@@ -81,7 +81,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_NegativeValue() {
+    void testAdd_NegativeValue() {
         assertEquals(
             new Quantity<>(3.0, LengthUnit.FEET),
             new Quantity<>(5.0, LengthUnit.FEET).add(new Quantity<>(-2.0, LengthUnit.FEET))
@@ -89,7 +89,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_LargeValues() {
+    void testAdd_LargeValues() {
         assertEquals(
             new Quantity<>(2e6, LengthUnit.FEET),
             new Quantity<>(1e6, LengthUnit.FEET).add(new Quantity<>(1e6, LengthUnit.FEET))
@@ -97,7 +97,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_SmallValues() {
+    void testAdd_SmallValues() {
         assertEquals(
             new Quantity<>(0.003, LengthUnit.FEET),
             new Quantity<>(0.001, LengthUnit.FEET).add(new Quantity<>(0.002, LengthUnit.FEET))
@@ -105,7 +105,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_Weight_SameUnit() {
+    void testAdd_Weight_SameUnit() {
         assertEquals(
             new Quantity<>(3.0, WeightUnit.KILOGRAM),
             new Quantity<>(1.0, WeightUnit.KILOGRAM).add(new Quantity<>(2.0, WeightUnit.KILOGRAM))
@@ -113,7 +113,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_Volume_LitrePlusLitre() {
+    void testAdd_Volume_LitrePlusLitre() {
         assertEquals(
             new Quantity<>(3.0, VolumeUnit.LITRE),
             new Quantity<>(1.0, VolumeUnit.LITRE).add(new Quantity<>(2.0, VolumeUnit.LITRE))
@@ -121,7 +121,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_Volume_LitrePlusMillilitre() {
+    void testAdd_Volume_LitrePlusMillilitre() {
         assertEquals(
             new Quantity<>(2.0, VolumeUnit.LITRE),
             new Quantity<>(1.0, VolumeUnit.LITRE).add(new Quantity<>(1000.0, VolumeUnit.MILLILITRE))
@@ -133,7 +133,7 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testAdd_ExplicitTarget_Feet() {
+    void testAdd_ExplicitTarget_Feet() {
         assertEquals(
             new Quantity<>(2.0, LengthUnit.FEET),
             new Quantity<>(1.0, LengthUnit.FEET).add(new Quantity<>(12.0, LengthUnit.INCHES), LengthUnit.FEET)
@@ -141,7 +141,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_Inches() {
+    void testAdd_ExplicitTarget_Inches() {
         assertEquals(
             new Quantity<>(24.0, LengthUnit.INCHES),
             new Quantity<>(1.0, LengthUnit.FEET).add(new Quantity<>(12.0, LengthUnit.INCHES), LengthUnit.INCHES)
@@ -149,7 +149,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_Yards() {
+    void testAdd_ExplicitTarget_Yards() {
         assertEquals(
             new Quantity<>(0.666667, LengthUnit.YARDS),
             new Quantity<>(1.0, LengthUnit.FEET).add(new Quantity<>(12.0, LengthUnit.INCHES), LengthUnit.YARDS)
@@ -157,7 +157,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_Centimeters() {
+    void testAdd_ExplicitTarget_Centimeters() {
         assertEquals(
             new Quantity<>(5.079998, LengthUnit.CENTIMETERS),
             new Quantity<>(1.0, LengthUnit.INCHES).add(new Quantity<>(1.0, LengthUnit.INCHES), LengthUnit.CENTIMETERS)
@@ -165,7 +165,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_AllUnitCombinations() {
+    void testAdd_ExplicitTarget_AllUnitCombinations() {
         assertEquals(
             new Quantity<>(48.0, LengthUnit.INCHES),
             new Quantity<>(1.0, LengthUnit.FEET).add(new Quantity<>(1.0, LengthUnit.YARDS), LengthUnit.INCHES)
@@ -177,7 +177,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_WithZero() {
+    void testAdd_ExplicitTarget_WithZero() {
         assertEquals(
             new Quantity<>(1.666667, LengthUnit.YARDS),
             new Quantity<>(5.0, LengthUnit.FEET).add(new Quantity<>(0.0, LengthUnit.INCHES), LengthUnit.YARDS)
@@ -185,7 +185,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_NegativeValues() {
+    void testAdd_ExplicitTarget_NegativeValues() {
         assertEquals(
             new Quantity<>(36.0, LengthUnit.INCHES),
             new Quantity<>(5.0, LengthUnit.FEET).add(new Quantity<>(-2.0, LengthUnit.FEET), LengthUnit.INCHES)
@@ -193,7 +193,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_LargeToSmallScale() {
+    void testAdd_ExplicitTarget_LargeToSmallScale() {
         assertEquals(
             new Quantity<>(18000.0, LengthUnit.INCHES),
             new Quantity<>(1000.0, LengthUnit.FEET).add(new Quantity<>(500.0, LengthUnit.FEET), LengthUnit.INCHES)
@@ -201,7 +201,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_SmallToLargeScale() {
+    void testAdd_ExplicitTarget_SmallToLargeScale() {
         assertEquals(
             new Quantity<>(0.666667, LengthUnit.YARDS),
             new Quantity<>(12.0, LengthUnit.INCHES).add(new Quantity<>(12.0, LengthUnit.INCHES), LengthUnit.YARDS)
@@ -209,7 +209,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_PrecisionTolerance() {
+    void testAdd_ExplicitTarget_PrecisionTolerance() {
         assertEquals(
             new Quantity<>(3.6, LengthUnit.INCHES),
             new Quantity<>(0.1, LengthUnit.FEET).add(new Quantity<>(0.2, LengthUnit.FEET), LengthUnit.INCHES)
@@ -217,14 +217,14 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_Commutativity() {
+    void testAdd_ExplicitTarget_Commutativity() {
         Quantity<LengthUnit> a = new Quantity<>(1.0, LengthUnit.FEET);
         Quantity<LengthUnit> b = new Quantity<>(12.0, LengthUnit.INCHES);
         assertEquals(a.add(b, LengthUnit.YARDS), b.add(a, LengthUnit.YARDS));
     }
 
     @Test
-    public void testAdd_ExplicitTarget_Volume_Gallon() {
+    void testAdd_ExplicitTarget_Volume_Gallon() {
         assertEquals(
             new Quantity<>(2.0, VolumeUnit.GALLON),
             new Quantity<>(3.785412, VolumeUnit.LITRE)
@@ -233,7 +233,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testAdd_ExplicitTarget_Weight_CrossUnit() {
+    void testAdd_ExplicitTarget_Weight_CrossUnit() {
         assertEquals(
             new Quantity<>(2000.0, WeightUnit.GRAM),
             new Quantity<>(1.0, WeightUnit.KILOGRAM).add(new Quantity<>(1000.0, WeightUnit.GRAM), WeightUnit.GRAM)
@@ -245,7 +245,7 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testSubtract_SameUnit_FeetMinusFeet() {
+    void testSubtract_SameUnit_FeetMinusFeet() {
         assertEquals(
             new Quantity<>(5.0, LengthUnit.FEET),
             new Quantity<>(10.0, LengthUnit.FEET).subtract(new Quantity<>(5.0, LengthUnit.FEET))
@@ -253,7 +253,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_CrossUnit_FeetMinusInches() {
+    void testSubtract_CrossUnit_FeetMinusInches() {
         assertEquals(
             new Quantity<>(9.5, LengthUnit.FEET),
             new Quantity<>(10.0, LengthUnit.FEET).subtract(new Quantity<>(6.0, LengthUnit.INCHES))
@@ -261,7 +261,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_CrossUnit_InchesMinusFeet() {
+    void testSubtract_CrossUnit_InchesMinusFeet() {
         assertEquals(
             new Quantity<>(60.0, LengthUnit.INCHES),
             new Quantity<>(120.0, LengthUnit.INCHES).subtract(new Quantity<>(5.0, LengthUnit.FEET))
@@ -269,7 +269,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_ResultNegative() {
+    void testSubtract_ResultNegative() {
         assertEquals(
             new Quantity<>(-5.0, LengthUnit.FEET),
             new Quantity<>(5.0, LengthUnit.FEET).subtract(new Quantity<>(10.0, LengthUnit.FEET))
@@ -277,7 +277,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_ResultZero() {
+    void testSubtract_ResultZero() {
         assertEquals(
             new Quantity<>(0.0, LengthUnit.FEET),
             new Quantity<>(10.0, LengthUnit.FEET).subtract(new Quantity<>(120.0, LengthUnit.INCHES))
@@ -285,7 +285,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_WithZeroOperand() {
+    void testSubtract_WithZeroOperand() {
         assertEquals(
             new Quantity<>(5.0, LengthUnit.FEET),
             new Quantity<>(5.0, LengthUnit.FEET).subtract(new Quantity<>(0.0, LengthUnit.INCHES))
@@ -293,7 +293,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_WithNegativeOperand() {
+    void testSubtract_WithNegativeOperand() {
         assertEquals(
             new Quantity<>(7.0, LengthUnit.FEET),
             new Quantity<>(5.0, LengthUnit.FEET).subtract(new Quantity<>(-2.0, LengthUnit.FEET))
@@ -301,7 +301,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_NonCommutative() {
+    void testSubtract_NonCommutative() {
         Quantity<LengthUnit> a = new Quantity<>(10.0, LengthUnit.FEET);
         Quantity<LengthUnit> b = new Quantity<>(5.0,  LengthUnit.FEET);
         assertEquals(new Quantity<>(5.0,  LengthUnit.FEET), a.subtract(b));
@@ -309,7 +309,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_Chained() {
+    void testSubtract_Chained() {
         assertEquals(
             new Quantity<>(7.0, LengthUnit.FEET),
             new Quantity<>(10.0, LengthUnit.FEET)
@@ -319,7 +319,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_AllCategories() {
+    void testSubtract_AllCategories() {
         assertEquals(
             new Quantity<>(9.5, LengthUnit.FEET),
             new Quantity<>(10.0, LengthUnit.FEET).subtract(new Quantity<>(6.0, LengthUnit.INCHES))
@@ -335,7 +335,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_LargeValues() {
+    void testSubtract_LargeValues() {
         assertEquals(
             new Quantity<>(5e5, WeightUnit.KILOGRAM),
             new Quantity<>(1e6, WeightUnit.KILOGRAM).subtract(new Quantity<>(5e5, WeightUnit.KILOGRAM))
@@ -343,7 +343,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_Volume_LitreMinusLitre() {
+    void testSubtract_Volume_LitreMinusLitre() {
         assertEquals(
             new Quantity<>(7.0, VolumeUnit.LITRE),
             new Quantity<>(10.0, VolumeUnit.LITRE).subtract(new Quantity<>(3.0, VolumeUnit.LITRE))
@@ -355,7 +355,7 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testSubtract_ExplicitTarget_Feet() {
+    void testSubtract_ExplicitTarget_Feet() {
         assertEquals(
             new Quantity<>(9.5, LengthUnit.FEET),
             new Quantity<>(10.0, LengthUnit.FEET).subtract(new Quantity<>(6.0, LengthUnit.INCHES), LengthUnit.FEET)
@@ -363,7 +363,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_ExplicitTarget_Inches() {
+    void testSubtract_ExplicitTarget_Inches() {
         assertEquals(
             new Quantity<>(114.0, LengthUnit.INCHES),
             new Quantity<>(10.0, LengthUnit.FEET).subtract(new Quantity<>(6.0, LengthUnit.INCHES), LengthUnit.INCHES)
@@ -371,7 +371,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testSubtract_ExplicitTarget_Millilitre() {
+    void testSubtract_ExplicitTarget_Millilitre() {
         assertEquals(
             new Quantity<>(3000.0, VolumeUnit.MILLILITRE),
             new Quantity<>(5.0, VolumeUnit.LITRE).subtract(new Quantity<>(2.0, VolumeUnit.LITRE), VolumeUnit.MILLILITRE)
@@ -383,67 +383,67 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testDivide_SameUnit_Feet() {
+    void testDivide_SameUnit_Feet() {
         assertEquals(5.0,
             new Quantity<>(10.0, LengthUnit.FEET).divide(new Quantity<>(2.0, LengthUnit.FEET)), EPSILON);
     }
 
     @Test
-    public void testDivide_CrossUnit_InchesOverFeet() {
+    void testDivide_CrossUnit_InchesOverFeet() {
         assertEquals(1.0,
             new Quantity<>(24.0, LengthUnit.INCHES).divide(new Quantity<>(2.0, LengthUnit.FEET)), EPSILON);
     }
 
     @Test
-    public void testDivide_CrossUnit_KilogramOverGram() {
+    void testDivide_CrossUnit_KilogramOverGram() {
         assertEquals(1.0,
             new Quantity<>(2.0, WeightUnit.KILOGRAM).divide(new Quantity<>(2000.0, WeightUnit.GRAM)), EPSILON);
     }
 
     @Test
-    public void testDivide_RatioGreaterThanOne() {
+    void testDivide_RatioGreaterThanOne() {
         assertTrue(new Quantity<>(10.0, LengthUnit.FEET).divide(new Quantity<>(2.0, LengthUnit.FEET)) > 1.0);
     }
 
     @Test
-    public void testDivide_RatioLessThanOne() {
+    void testDivide_RatioLessThanOne() {
         assertEquals(0.5,
             new Quantity<>(5.0, LengthUnit.FEET).divide(new Quantity<>(10.0, LengthUnit.FEET)), EPSILON);
     }
 
     @Test
-    public void testDivide_RatioEqualToOne() {
+    void testDivide_RatioEqualToOne() {
         assertEquals(1.0,
             new Quantity<>(10.0, LengthUnit.FEET).divide(new Quantity<>(10.0, LengthUnit.FEET)), EPSILON);
     }
 
     @Test
-    public void testDivide_AllCategories() {
+    void testDivide_AllCategories() {
         assertEquals(5.0,  new Quantity<>(10.0, LengthUnit.FEET).divide(new Quantity<>(2.0, LengthUnit.FEET)), EPSILON);
         assertEquals(2.0,  new Quantity<>(10.0, WeightUnit.KILOGRAM).divide(new Quantity<>(5.0, WeightUnit.KILOGRAM)), EPSILON);
         assertEquals(0.5,  new Quantity<>(5.0, VolumeUnit.LITRE).divide(new Quantity<>(10.0, VolumeUnit.LITRE)), EPSILON);
     }
 
     @Test
-    public void testDivide_ByZero_Throws() {
+    void testDivide_ByZero_Throws() {
         assertThrows(ArithmeticException.class,
             () -> new Quantity<>(10.0, LengthUnit.FEET).divide(new Quantity<>(0.0, LengthUnit.FEET)));
     }
 
     @Test
-    public void testDivide_LargeRatio() {
+    void testDivide_LargeRatio() {
         assertEquals(1e6,
             new Quantity<>(1e6, WeightUnit.KILOGRAM).divide(new Quantity<>(1.0, WeightUnit.KILOGRAM)), EPSILON);
     }
 
     @Test
-    public void testDivide_SmallRatio() {
+    void testDivide_SmallRatio() {
         assertEquals(1e-6,
             new Quantity<>(1.0, WeightUnit.KILOGRAM).divide(new Quantity<>(1e6, WeightUnit.KILOGRAM)), 1e-12);
     }
 
     @Test
-    public void testDivide_NoRounding_FullPrecision() {
+    void testDivide_NoRounding_FullPrecision() {
         assertEquals(10.0 / 3.0,
             new Quantity<>(10.0, LengthUnit.FEET).divide(new Quantity<>(3.0, LengthUnit.FEET)), 1e-12);
     }
@@ -453,7 +453,7 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testImmutability_Add_OriginalUnchanged() {
+    void testImmutability_Add_OriginalUnchanged() {
         Quantity<VolumeUnit> original = new Quantity<>(5.0, VolumeUnit.LITRE);
         Quantity<VolumeUnit> sum      = original.add(new Quantity<>(500.0, VolumeUnit.MILLILITRE));
         assertEquals(new Quantity<>(5.0, VolumeUnit.LITRE), original);
@@ -461,7 +461,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testImmutability_Subtract_OriginalUnchanged() {
+    void testImmutability_Subtract_OriginalUnchanged() {
         Quantity<VolumeUnit> original = new Quantity<>(5.0, VolumeUnit.LITRE);
         Quantity<VolumeUnit> diff     = original.subtract(new Quantity<>(500.0, VolumeUnit.MILLILITRE));
         assertEquals(new Quantity<>(5.0, VolumeUnit.LITRE), original);
@@ -469,7 +469,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testImmutability_Divide_OriginalUnchanged() {
+    void testImmutability_Divide_OriginalUnchanged() {
         Quantity<WeightUnit> original = new Quantity<>(10.0, WeightUnit.KILOGRAM);
         double ratio                  = original.divide(new Quantity<>(5.0, WeightUnit.KILOGRAM));
         assertEquals(new Quantity<>(10.0, WeightUnit.KILOGRAM), original);
@@ -477,7 +477,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testImmutability_AddSubtract_Inverse() {
+    void testImmutability_AddSubtract_Inverse() {
         Quantity<LengthUnit> a = new Quantity<>(5.0, LengthUnit.FEET);
         Quantity<LengthUnit> b = new Quantity<>(2.0, LengthUnit.FEET);
         assertEquals(a, a.add(b).subtract(b));
@@ -488,25 +488,25 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testAdd_NullOperand_Throws() {
+    void testAdd_NullOperand_Throws() {
         assertThrows(IllegalArgumentException.class,
             () -> new Quantity<>(1.0, LengthUnit.FEET).add(null));
     }
 
     @Test
-    public void testSubtract_NullOperand_Throws() {
+    void testSubtract_NullOperand_Throws() {
         assertThrows(IllegalArgumentException.class,
             () -> new Quantity<>(10.0, LengthUnit.FEET).subtract(null));
     }
 
     @Test
-    public void testDivide_NullOperand_Throws() {
+    void testDivide_NullOperand_Throws() {
         assertThrows(IllegalArgumentException.class,
             () -> new Quantity<>(10.0, LengthUnit.FEET).divide(null));
     }
 
     @Test
-    public void testNullOperand_SameErrorMessage_AllOperations() {
+    void testNullOperand_SameErrorMessage_AllOperations() {
         Quantity<LengthUnit> q = new Quantity<>(1.0, LengthUnit.FEET);
         String msgAdd = assertThrows(IllegalArgumentException.class, () -> q.add(null)).getMessage();
         String msgSub = assertThrows(IllegalArgumentException.class, () -> q.subtract(null)).getMessage();
@@ -516,35 +516,35 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testCrossCategory_Add_Throws() {
+    void testCrossCategory_Add_Throws() {
         Quantity<LengthUnit> length = new Quantity<>(10.0, LengthUnit.FEET);
         Quantity<WeightUnit> weight = new Quantity<>(5.0,  WeightUnit.KILOGRAM);
         assertThrows(IllegalArgumentException.class, () -> length.add((Quantity) weight));
     }
 
     @Test
-    public void testCrossCategory_Subtract_Throws() {
+    void testCrossCategory_Subtract_Throws() {
         Quantity<LengthUnit> length = new Quantity<>(10.0, LengthUnit.FEET);
         Quantity<WeightUnit> weight = new Quantity<>(5.0,  WeightUnit.KILOGRAM);
         assertThrows(IllegalArgumentException.class, () -> length.subtract((Quantity) weight));
     }
 
     @Test
-    public void testCrossCategory_Divide_Throws() {
+    void testCrossCategory_Divide_Throws() {
         Quantity<LengthUnit> length = new Quantity<>(10.0, LengthUnit.FEET);
         Quantity<WeightUnit> weight = new Quantity<>(5.0,  WeightUnit.KILOGRAM);
         assertThrows(IllegalArgumentException.class, () -> length.divide((Quantity) weight));
     }
 
     @Test
-    public void testAdd_NullTargetUnit_Throws() {
+    void testAdd_NullTargetUnit_Throws() {
         Quantity<LengthUnit> a = new Quantity<>(5.0, LengthUnit.FEET);
         Quantity<LengthUnit> b = new Quantity<>(12.0, LengthUnit.INCHES);
         assertThrows(IllegalArgumentException.class, () -> a.add(b, null));
     }
 
     @Test
-    public void testSubtract_NullTargetUnit_Throws() {
+    void testSubtract_NullTargetUnit_Throws() {
         Quantity<LengthUnit> a = new Quantity<>(5.0, LengthUnit.FEET);
         Quantity<LengthUnit> b = new Quantity<>(12.0, LengthUnit.INCHES);
         assertThrows(IllegalArgumentException.class, () -> a.subtract(b, null));
@@ -555,7 +555,7 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testTemperature_Add_Throws() {
+    void testTemperature_Add_Throws() {
         Quantity<TemperatureUnit> a = new Quantity<>(100.0, TemperatureUnit.CELSIUS);
         Quantity<TemperatureUnit> b = new Quantity<>(50.0,  TemperatureUnit.CELSIUS);
         UnsupportedOperationException ex =
@@ -564,21 +564,21 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testTemperature_Subtract_Throws() {
+    void testTemperature_Subtract_Throws() {
         Quantity<TemperatureUnit> a = new Quantity<>(100.0, TemperatureUnit.CELSIUS);
         Quantity<TemperatureUnit> b = new Quantity<>(50.0,  TemperatureUnit.CELSIUS);
         assertThrows(UnsupportedOperationException.class, () -> a.subtract(b));
     }
 
     @Test
-    public void testTemperature_Divide_Throws() {
+    void testTemperature_Divide_Throws() {
         Quantity<TemperatureUnit> a = new Quantity<>(100.0, TemperatureUnit.CELSIUS);
         Quantity<TemperatureUnit> b = new Quantity<>(50.0,  TemperatureUnit.CELSIUS);
         assertThrows(UnsupportedOperationException.class, () -> a.divide(b));
     }
 
     @Test
-    public void testTemperature_CrossUnit_Add_Throws() {
+    void testTemperature_CrossUnit_Add_Throws() {
         Quantity<TemperatureUnit> a = new Quantity<>(0.0,  TemperatureUnit.CELSIUS);
         Quantity<TemperatureUnit> b = new Quantity<>(32.0, TemperatureUnit.FAHRENHEIT);
         assertThrows(UnsupportedOperationException.class, () -> a.add(b));
@@ -589,7 +589,7 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testChain_AddSubtractDivide() {
+    void testChain_AddSubtractDivide() {
         Quantity<LengthUnit> q1 = new Quantity<>(10.0, LengthUnit.FEET);
         Quantity<LengthUnit> q2 = new Quantity<>(2.0,  LengthUnit.FEET);
         Quantity<LengthUnit> q3 = new Quantity<>(1.0,  LengthUnit.FEET);
@@ -598,7 +598,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testLargeDataset_CumulativeAdd() {
+    void testLargeDataset_CumulativeAdd() {
         Quantity<LengthUnit> base = new Quantity<>(0.0, LengthUnit.INCHES);
         for (int i = 0; i < 1000; i++) {
             base = base.add(new Quantity<>(1.0, LengthUnit.INCHES));
@@ -607,7 +607,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testPerformance_10000Additions() {
+    void testPerformance_10000Additions() {
         Quantity<LengthUnit> q = new Quantity<>(0.0, LengthUnit.INCHES);
         for (int i = 0; i < 10000; i++) {
             q = q.add(new Quantity<>(1.0, LengthUnit.INCHES));
@@ -616,7 +616,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testRounding_AddSubtract_SixDecimalPlaces() {
+    void testRounding_AddSubtract_SixDecimalPlaces() {
         Quantity<LengthUnit> a = new Quantity<>(1.0,      LengthUnit.FEET);
         Quantity<LengthUnit> b = new Quantity<>(0.333333, LengthUnit.YARDS);
         Quantity<LengthUnit> res = a.subtract(b);
@@ -625,7 +625,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testRounding_Add_Accuracy() {
+    void testRounding_Add_Accuracy() {
         Quantity<LengthUnit> a   = new Quantity<>(1.234567, LengthUnit.FEET);
         Quantity<LengthUnit> b   = new Quantity<>(0.0,      LengthUnit.FEET);
         Quantity<LengthUnit> res = a.add(b);
@@ -634,7 +634,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testTypeSafety_HashSet_EqualQuantitiesCollapsed() {
+    void testTypeSafety_HashSet_EqualQuantitiesCollapsed() {
         Set<Quantity<VolumeUnit>> set = new HashSet<>();
         set.add(new Quantity<>(1.0,    VolumeUnit.LITRE));
         set.add(new Quantity<>(1000.0, VolumeUnit.MILLILITRE));
@@ -646,7 +646,7 @@ public class QuantityArithmeticTest {
     // =========================================================================
 
     @Test
-    public void testArithmeticOperation_Enum_AllConstantsPresent() throws Exception {
+    void testArithmeticOperation_Enum_AllConstantsPresent() throws Exception {
         Class<?> enumClass = findInnerEnum(Quantity.class, "ArithmeticOperation");
         assertNotNull(enumClass);
         assertNotNull(Enum.valueOf((Class<Enum>) enumClass, "ADD"));
@@ -655,7 +655,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testArithmeticOperation_Add_Computes() throws Exception {
+    void testArithmeticOperation_Add_Computes() throws Exception {
         Class<?> enumClass = findInnerEnum(Quantity.class, "ArithmeticOperation");
         Object add         = Enum.valueOf((Class<Enum>) enumClass, "ADD");
         Method compute     = enumClass.getDeclaredMethod("compute", double.class, double.class);
@@ -665,7 +665,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testArithmeticOperation_Subtract_Computes() throws Exception {
+    void testArithmeticOperation_Subtract_Computes() throws Exception {
         Class<?> enumClass = findInnerEnum(Quantity.class, "ArithmeticOperation");
         Object sub         = Enum.valueOf((Class<Enum>) enumClass, "SUBTRACT");
         Method compute     = enumClass.getDeclaredMethod("compute", double.class, double.class);
@@ -675,7 +675,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testArithmeticOperation_Divide_Computes() throws Exception {
+    void testArithmeticOperation_Divide_Computes() throws Exception {
         Class<?> enumClass = findInnerEnum(Quantity.class, "ArithmeticOperation");
         Object div         = Enum.valueOf((Class<Enum>) enumClass, "DIVIDE");
         Method compute     = enumClass.getDeclaredMethod("compute", double.class, double.class);
@@ -685,7 +685,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testArithmeticOperation_DivideByZero_ThrowsArithmetic() throws Exception {
+    void testArithmeticOperation_DivideByZero_ThrowsArithmetic() throws Exception {
         Class<?> enumClass = findInnerEnum(Quantity.class, "ArithmeticOperation");
         Object div         = Enum.valueOf((Class<Enum>) enumClass, "DIVIDE");
         Method compute     = enumClass.getDeclaredMethod("compute", double.class, double.class);
@@ -696,21 +696,21 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testArithmeticOperation_Compute_MethodIsPublic() throws Exception {
+    void testArithmeticOperation_Compute_MethodIsPublic() throws Exception {
         Class<?> enumClass = findInnerEnum(Quantity.class, "ArithmeticOperation");
         Method compute     = enumClass.getDeclaredMethod("compute", double.class, double.class);
         assertNotNull(compute);
     }
 
     @Test
-    public void testHelper_PerformArithmetic_IsPrivate() throws Exception {
+    void testHelper_PerformArithmetic_IsPrivate() throws Exception {
         Method perform = Quantity.class.getDeclaredMethod(
             "performArithmetic", Quantity.class, findInnerEnum(Quantity.class, "ArithmeticOperation"));
         assertTrue(Modifier.isPrivate(perform.getModifiers()));
     }
 
     @Test
-    public void testValidation_NullGuard_IsConsistentAcrossAllOperations() {
+    void testValidation_NullGuard_IsConsistentAcrossAllOperations() {
         // Verifies that null validation is centralized — all three operations
         // produce the identical error message, proving a shared guard path.
         Quantity<LengthUnit> q   = new Quantity<>(1.0, LengthUnit.FEET);
@@ -722,7 +722,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testHelper_PerformArithmetic_BaseUnitConversion() throws Exception {
+    void testHelper_PerformArithmetic_BaseUnitConversion() throws Exception {
         Quantity<LengthUnit> a = new Quantity<>(1.0, LengthUnit.FEET);
         Quantity<LengthUnit> b = new Quantity<>(12.0, LengthUnit.INCHES);
         Method perform = Quantity.class.getDeclaredMethod(
@@ -737,7 +737,7 @@ public class QuantityArithmeticTest {
     }
 
     @Test
-    public void testHelper_ResultConversion_AddVsExplicitTarget_Consistent() {
+    void testHelper_ResultConversion_AddVsExplicitTarget_Consistent() {
         Quantity<LengthUnit> a = new Quantity<>(1.0, LengthUnit.FEET);
         Quantity<LengthUnit> b = new Quantity<>(12.0, LengthUnit.INCHES);
         Quantity<LengthUnit> sumFeet   = a.add(b);

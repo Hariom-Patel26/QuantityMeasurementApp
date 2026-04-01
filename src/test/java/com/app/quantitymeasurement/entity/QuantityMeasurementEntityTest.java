@@ -12,14 +12,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class QuantityMeasurementEntityTest {
+class QuantityMeasurementEntityTest {
 
     private QuantityModel<IMeasurable> q1;      // 2.0 FEET
     private QuantityModel<IMeasurable> q2;      // 24.0 INCHES
     private QuantityModel<IMeasurable> result;  // 4.0 FEET
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         q1     = new QuantityModel<>(2.0,  LengthUnit.FEET);
         q2     = new QuantityModel<>(24.0, LengthUnit.INCHES);
         result = new QuantityModel<>(4.0,  LengthUnit.FEET);
@@ -30,7 +30,7 @@ public class QuantityMeasurementEntityTest {
     // =========================================================================
 
     @Test
-    public void testStringResultConstructor_StoresOperands() {
+    void testStringResultConstructor_StoresOperands() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
 
@@ -42,21 +42,21 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testStringResultConstructor_StoresResultString() {
+    void testStringResultConstructor_StoresResultString() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
         assertEquals("Equal", entity.getResultString());
     }
 
     @Test
-    public void testStringResultConstructor_IsNotError() {
+    void testStringResultConstructor_IsNotError() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Not Equal");
         assertFalse(entity.isError());
     }
 
     @Test
-    public void testStringResultConstructor_MeasurementType_Stored() {
+    void testStringResultConstructor_MeasurementType_Stored() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
         assertEquals("LengthUnit", entity.getThisMeasurementType());
@@ -68,7 +68,7 @@ public class QuantityMeasurementEntityTest {
     // =========================================================================
 
     @Test
-    public void testModelResultConstructor_StoresResultFields() {
+    void testModelResultConstructor_StoresResultFields() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "ADD", result);
 
@@ -78,7 +78,7 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testModelResultConstructor_StoresOperands() {
+    void testModelResultConstructor_StoresOperands() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "ADD", result);
 
@@ -88,14 +88,14 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testModelResultConstructor_IsNotError() {
+    void testModelResultConstructor_IsNotError() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "ADD", result);
         assertFalse(entity.isError());
     }
 
     @Test
-    public void testModelResultConstructor_NullResultString() {
+    void testModelResultConstructor_NullResultString() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "ADD", result);
         assertNull(entity.getResultString());
@@ -106,21 +106,21 @@ public class QuantityMeasurementEntityTest {
     // =========================================================================
 
     @Test
-    public void testErrorConstructor_StoresErrorFlag() {
+    void testErrorConstructor_StoresErrorFlag() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "DIVIDE", "Division by zero", true);
         assertTrue(entity.isError());
     }
 
     @Test
-    public void testErrorConstructor_StoresErrorMessage() {
+    void testErrorConstructor_StoresErrorMessage() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "DIVIDE", "Division by zero", true);
         assertEquals("Division by zero", entity.getErrorMessage());
     }
 
     @Test
-    public void testErrorConstructor_StoresOperandsAndOperation() {
+    void testErrorConstructor_StoresOperandsAndOperation() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "DIVIDE", "error msg", true);
         assertEquals(2.0,      entity.getThisValue(),  1e-6);
@@ -129,7 +129,7 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testErrorConstructor_NoResultValue() {
+    void testErrorConstructor_NoResultValue() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "DIVIDE", "error", true);
         assertNull(entity.getResultValue());
@@ -141,13 +141,13 @@ public class QuantityMeasurementEntityTest {
     // =========================================================================
 
     @Test
-    public void testNullFirstOperand_ThrowsIllegalArgument() {
+    void testNullFirstOperand_ThrowsIllegalArgument() {
         assertThrows(IllegalArgumentException.class,
             () -> new QuantityMeasurementEntity(null, q2, "COMPARE", "Equal"));
     }
 
     @Test
-    public void testNullSecondOperand_ThrowsIllegalArgument() {
+    void testNullSecondOperand_ThrowsIllegalArgument() {
         assertThrows(IllegalArgumentException.class,
             () -> new QuantityMeasurementEntity(q1, null, "COMPARE", "Equal"));
     }
@@ -157,7 +157,7 @@ public class QuantityMeasurementEntityTest {
     // =========================================================================
 
     @Test
-    public void testEquals_SameOperandsAndOperation_DifferentResult_Equal() {
+    void testEquals_SameOperandsAndOperation_DifferentResult_Equal() {
         // equals() is based on operands + operation only — result string does NOT affect equality
         QuantityMeasurementEntity e1 =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
@@ -167,7 +167,7 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testEquals_DifferentOperation_NotEqual() {
+    void testEquals_DifferentOperation_NotEqual() {
         QuantityMeasurementEntity compare =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
         QuantityMeasurementEntity add =
@@ -176,7 +176,7 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testEquals_DifferentFirstOperandValue_NotEqual() {
+    void testEquals_DifferentFirstOperandValue_NotEqual() {
         QuantityModel<IMeasurable> other = new QuantityModel<>(5.0, LengthUnit.FEET);
         QuantityMeasurementEntity e1 = new QuantityMeasurementEntity(q1,    q2, "ADD", result);
         QuantityMeasurementEntity e2 = new QuantityMeasurementEntity(other, q2, "ADD", result);
@@ -184,7 +184,7 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testEquals_DifferentFirstOperandUnit_NotEqual() {
+    void testEquals_DifferentFirstOperandUnit_NotEqual() {
         QuantityModel<IMeasurable> inFeet  = new QuantityModel<>(2.0, LengthUnit.FEET);
         QuantityModel<IMeasurable> inYards = new QuantityModel<>(2.0, LengthUnit.YARDS);
         QuantityMeasurementEntity e1 = new QuantityMeasurementEntity(inFeet,  q2, "COMPARE", "x");
@@ -193,21 +193,21 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testEquals_Reflexive() {
+    void testEquals_Reflexive() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
         assertEquals(entity, entity);
     }
 
     @Test
-    public void testEquals_NullComparison_ReturnsFalse() {
+    void testEquals_NullComparison_ReturnsFalse() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
         assertNotEquals(entity, null);
     }
 
     @Test
-    public void testEquals_DifferentClass_ReturnsFalse() {
+    void testEquals_DifferentClass_ReturnsFalse() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
         assertFalse(entity.equals("some string"));
@@ -218,7 +218,7 @@ public class QuantityMeasurementEntityTest {
     // =========================================================================
 
     @Test
-    public void testToString_SuccessWithResultString_ContainsSuccessTag() {
+    void testToString_SuccessWithResultString_ContainsSuccessTag() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
         String s = entity.toString();
@@ -228,7 +228,7 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testToString_SuccessWithResultModel_ContainsResultValue() {
+    void testToString_SuccessWithResultModel_ContainsResultValue() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "ADD", result);
         String s = entity.toString();
@@ -239,7 +239,7 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testToString_Error_ContainsErrorTagAndMessage() {
+    void testToString_Error_ContainsErrorTagAndMessage() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "DIVIDE", "Division by zero", true);
         String s = entity.toString();
@@ -248,7 +248,7 @@ public class QuantityMeasurementEntityTest {
     }
 
     @Test
-    public void testToString_ContainsBothOperands() {
+    void testToString_ContainsBothOperands() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "ADD", result);
         String s = entity.toString();
@@ -261,7 +261,7 @@ public class QuantityMeasurementEntityTest {
     // =========================================================================
 
     @Test
-    public void testImplementsSerializable() {
+    void testImplementsSerializable() {
         QuantityMeasurementEntity entity =
             new QuantityMeasurementEntity(q1, q2, "COMPARE", "Equal");
         assertTrue(entity instanceof java.io.Serializable);

@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
-public class QuantityMeasurementRepositoryTest {
+class QuantityMeasurementRepositoryTest {
 
     @Autowired
     private QuantityMeasurementRepository repository;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         repository.deleteAll();
     }
 
@@ -31,7 +31,7 @@ public class QuantityMeasurementRepositoryTest {
     // =========================================================================
 
     @Test
-    public void testSave_AndFindAll_ReturnsPersistedEntity() {
+    void testSave_AndFindAll_ReturnsPersistedEntity() {
         QuantityMeasurementEntity entity = buildEntity("compare", "FEET", "LengthUnit",
             "INCHES", "LengthUnit", "true", null, false, null);
         repository.save(entity);
@@ -42,7 +42,7 @@ public class QuantityMeasurementRepositoryTest {
     }
 
     @Test
-    public void testSave_GeneratesId() {
+    void testSave_GeneratesId() {
         QuantityMeasurementEntity entity = buildEntity("add", "FEET", "LengthUnit",
             "INCHES", "LengthUnit", null, 2.0, false, null);
         QuantityMeasurementEntity saved = repository.save(entity);
@@ -55,7 +55,7 @@ public class QuantityMeasurementRepositoryTest {
     // =========================================================================
 
     @Test
-    public void testFindByOperation_Compare_ReturnsOnlyCompareRecords() {
+    void testFindByOperation_Compare_ReturnsOnlyCompareRecords() {
         repository.save(buildEntity("compare", "FEET", "LengthUnit",
             "INCHES", "LengthUnit", "true", null, false, null));
         repository.save(buildEntity("add", "FEET", "LengthUnit",
@@ -67,7 +67,7 @@ public class QuantityMeasurementRepositoryTest {
     }
 
     @Test
-    public void testFindByOperation_NoMatch_ReturnsEmpty() {
+    void testFindByOperation_NoMatch_ReturnsEmpty() {
         List<QuantityMeasurementEntity> result = repository.findByOperation("divide");
         assertTrue(result.isEmpty());
     }
@@ -77,7 +77,7 @@ public class QuantityMeasurementRepositoryTest {
     // =========================================================================
 
     @Test
-    public void testFindByThisMeasurementType_LengthUnit_ReturnsCorrect() {
+    void testFindByThisMeasurementType_LengthUnit_ReturnsCorrect() {
         repository.save(buildEntity("compare", "FEET", "LengthUnit",
             "INCHES", "LengthUnit", "true", null, false, null));
         repository.save(buildEntity("compare", "KILOGRAM", "WeightUnit",
@@ -94,7 +94,7 @@ public class QuantityMeasurementRepositoryTest {
     // =========================================================================
 
     @Test
-    public void testFindByCreatedAtAfter_ReturnsRecentRecords() throws InterruptedException {
+    void testFindByCreatedAtAfter_ReturnsRecentRecords() throws InterruptedException {
         LocalDateTime before = LocalDateTime.now().minusSeconds(1);
         repository.save(buildEntity("compare", "FEET", "LengthUnit",
             "INCHES", "LengthUnit", "true", null, false, null));
@@ -104,7 +104,7 @@ public class QuantityMeasurementRepositoryTest {
     }
 
     @Test
-    public void testFindByCreatedAtAfter_FutureDate_ReturnsEmpty() {
+    void testFindByCreatedAtAfter_FutureDate_ReturnsEmpty() {
         repository.save(buildEntity("compare", "FEET", "LengthUnit",
             "INCHES", "LengthUnit", "true", null, false, null));
 
@@ -118,7 +118,7 @@ public class QuantityMeasurementRepositoryTest {
     // =========================================================================
 
     @Test
-    public void testFindSuccessfulByOperation_ExcludesErrors() {
+    void testFindSuccessfulByOperation_ExcludesErrors() {
         repository.save(buildEntity("add", "FEET", "LengthUnit",
             "INCHES", "LengthUnit", null, 2.0, false, null));
         repository.save(buildEntity("add", "FEET", "LengthUnit",
@@ -135,7 +135,7 @@ public class QuantityMeasurementRepositoryTest {
     // =========================================================================
 
     @Test
-    public void testCountByOperationAndIsErrorFalse_CountsCorrectly() {
+    void testCountByOperationAndIsErrorFalse_CountsCorrectly() {
         repository.save(buildEntity("compare", "FEET", "LengthUnit",
             "INCHES", "LengthUnit", "true", null, false, null));
         repository.save(buildEntity("compare", "FEET", "LengthUnit",
@@ -152,7 +152,7 @@ public class QuantityMeasurementRepositoryTest {
     // =========================================================================
 
     @Test
-    public void testFindByIsErrorTrue_ReturnsOnlyErrors() {
+    void testFindByIsErrorTrue_ReturnsOnlyErrors() {
         repository.save(buildEntity("add", "FEET", "LengthUnit",
             "INCHES", "LengthUnit", null, 2.0, false, null));
         repository.save(buildEntity("add", "FEET", "LengthUnit",
