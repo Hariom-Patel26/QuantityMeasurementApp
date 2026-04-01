@@ -34,4 +34,3 @@ data/*.ser
 
 # Environment / secrets — never commit real credentials
 .env
-application-prod.properties
