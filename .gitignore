@@ -1,0 +1,45 @@
+# Build output
+target/
+
+# IDE metadata — Eclipse / STS
+.settings/
+.classpath
+.factorypath
+.project
+
+# IDE metadata — IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# IDE metadata — VS Code
+.vscode/
+
+# OS artefacts
+.DS_Store
+Thumbs.db
+
+# Maven Wrapper (agar remove karna hai)
+.mvn/
+mvnw
+mvnw.cmd
+
+# Optional docs/config
+.gitattributes
+HELP.md
+
+# Java compiled output (should never reach VCS)
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# H2 persistent database files (dev only)
+data/*.mv.db
+data/*.trace.db
+data/*.ser
+
+# Environment / secrets — never commit real credentials
+.env
